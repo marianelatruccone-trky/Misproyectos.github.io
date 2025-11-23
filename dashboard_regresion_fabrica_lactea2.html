@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Fábrica Láctea SF - UNVM</title>
+    <style>
+        /* ESTILOS BASE Y LAYOUT */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef;
+            color: #343a40;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0; 
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative; 
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: white; /* Letras blancas para contraste */
+            padding-left: 0;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 0.9em;
+            color: #cce5ff; 
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-gap: 20px;
+        }
+        .panel {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        h2 { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; }
+
+        /* Estilo para la Base de Datos */
+        .data-table-container {
+            grid-column: 1 / 3;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+        }
+        .data-table th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Gráficos y Análisis de Residuos */
+        .chart-section {
+            grid-column: 1 / 3; 
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            margin-bottom: 20px;
+        }
+        .chart-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .residuo-analisis {
+            grid-column: 1 / 3;
+            background-color: #ffe0b2;
+            border-left: 5px solid #ff9800;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+
+        /* KPI Grid, Hypothesis Section, etc. */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-gap: 15px;
+            margin-bottom: 20px;
+        }
+        .kpi-card {
+            background-color: #f8f9fa;
+            border-left: 5px solid;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .kpi-card h4 { margin-top: 0; color: #6c757d; font-size: 0.9em; }
+        .kpi-card p { font-size: 1.5em; font-weight: bold; margin: 5px 0 0 0; }
+        .kpi-card.green { border-left-color: #28a745; } .kpi-card.green p { color: #28a745; }
+        .kpi-card.red { border-left-color: #dc3545; } .kpi-card.red p { color: #dc3545; }
+        .kpi-card.blue { border-left-color: #17a2b8; } .kpi-card.blue p { color: #17a2b8; }
+        .kpi-card.purple { border-left-color: #6f42c1; } .kpi-card.purple p { color: #6f42c1; }
+
+        /* Pronóstico y Intervalos */
+        .forecast-box, .interval-box {
+            background-color: #e0f7fa; 
+            border: 2px solid #00bcd4;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .forecast-box h3 { color: #00838f; margin-top: 0; }
+        .forecast-box p { font-size: 2.2em; font-weight: 700; color: #00838f; margin: 5px 0 0 0; }
+        .interval-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 15px;
+        }
+        .interval-item {
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .interval-item h4 { margin-top: 0; font-size: 1.1em; }
+        .interval-item p { font-size: 1.3em; font-weight: bold; margin-top: 5px; }
+
+        .ic { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .ic h4 { color: #155724; } .ic p { color: #155724; }
+        
+        .ip { background-color: #fff3cd; border: 1px solid #ffeb8c; }
+        .ip h4 { color: #856404; } .ip p { color: #856404; }
+
+        /* Sección de Hipótesis */
+        .hypothesis-section {
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            background-color: #f0f8ff;
+            border: 1px solid #b0e0e6;
+        }
+        .conclusion-box {
+            background-color: #d4edda;
+            border-left: 5px solid #28a745;
+            font-weight: bold;
+            color: #155724;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        .comparison-note {
+            background-color: #e2f0fd;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        /* Clases para subíndices y superíndices */
+        .sub { font-size: 0.7em; vertical-align: sub; }
+        .hat { font-size: 1.2em; vertical-align: super; line-height: 0; }
+        .beta { font-style: italic; }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Simulación Regresión Fábrica Láctea San Francisco</h1>
+    <p>Concurso de Antecedentes y Oposición - UNVM | S<sub>Y.X</sub> e Intervalos Dinámicos</p>
+</div>
+
+<div class="dashboard-container">
+    
+    <div class="data-table-container">
+        <h2>📚 Base de Datos Utilizada (n=30)</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Observación (i)</th>
+                    <th>Gasto en Mantenimiento (X) - Miles ARS</th>
+                    <th>Utilidad Operativa (Y) - Miles ARS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1-10</td><td>15, 18, 20, 14, 16, 19, 23, 27, 30, 17</td><td>82, 88, 95, 80, 85, 92, 105, 124, 134, 86</td></tr>
+                <tr><td>11-20</td><td>22, 25, 28, 31, 34, 30, 26, 21, 24, 18</td><td>108, 117, 127, 135, 144, 132, 120, 102, 115, 90</td></tr>
+                <tr><td>21-30</td><td>35, 38, 40, 32, 36, 39, 37, 33, 29, 25</td><td>155, 165, 170, 142, 160, 168, 162, 148, 128, 118</td></tr>
+            </tbody>
+        </table>
+        <p style="text-align: right; font-size: 0.85em; margin-top: 10px;">*Fuente: Datos de la simulación de regresión simple.</p>
+    </div>
+
+    <div class="chart-section">
+        <div class="chart-box">
+            <h3>📈 Gráfico de Regresión (Dispersión y Recta)</h3>
+            <canvas id="regresion-chart" width="480" height="350" style="background-color: #f9f9f9; border: 1px solid #ddd;"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>📉 Gráfico de Residuos vs. X</h3>
+            <canvas id="residuos-chart" width="480" height="350" style="background-color: #f9f9f9; border: 1px solid #ddd;"></canvas>
+        </div>
+        <div class="residuo-analisis">
+            <h4>Análisis Visual del Gráfico de Residuos (Errores e_i)</h4>
+            <p>Este gráfico muestra el error (ei = Yi - Yi estimado) en función de la variable independiente (X). Para que el modelo de regresión lineal simple sea válido, los puntos deben mostrarse dispersos de manera aleatoria alrededor de la línea horizontal ei=0, sin patrones (sin forma de embudo, campana o curva).</p>
+            <p>→ Observación en este caso: Los puntos parecen distribuidos aleatoriamente, lo que sugiere que las suposiciones de linealidad y homocedasticidad (varianza constante del error) se cumplen. Esto respalda la validez de la ecuación de estimación Y = 24.90 + 3.65 X.</p>
+        </div>
+    </div>
+    <div class="panel">
+        <h2>📊 Resumen del Modelo RLS</h2>
+
+        <div class="kpi-grid">
+            <div class="kpi-card green">
+                <h4>Pendiente (b<sub>1</sub>)</h4>
+                <p><span id="b1-display"></span></p>
+            </div>
+            <div class="kpi-card red">
+                <h4>Intercepción (b<sub>0</sub>)</h4>
+                <p><span id="b0-display"></span></p>
+            </div>
+            <div class="kpi-card blue">
+                <h4>R<sup>2</sup> Explicado</h4>
+                <p><span id="r2-display"></span>%</p>
+            </div>
+            <div class="kpi-card purple">
+                <h4>Error Estándar (S<sub>Y.X</sub>)</h4>
+                <p><span id="syx-display"></span></p>
+            </div>
+        </div>
+
+        <h3>Ecuación Final de Estimación</h3>
+        <p style="font-size: 1.4em; font-weight: bold; text-align: center;">
+            <span class="hat">Y</span> = <span id="ecuacion-b0">24.90</span> + <span id="ecuacion-b1">3.65</span> X
+        </p>
+
+        <div class="hypothesis-section">
+            <h3>📈 Significación y Prueba de Hipótesis (H<sub>0</sub>: beta<sub>1</sub> = 0).</h3> 
+            
+            <ul>
+                <li>Hipótesis Nula (H<sub>0</sub>): beta<sub>1</sub> = 0 (No existe relación lineal).</li>
+                <li>Estadística de Prueba: Distribución t- de Student con n-2=28 g.l.</li>
+                <li>Valor T-Empírico: t_empírico <span id="t-empirico-display"></span>.</li>
+                <li>Valor T-Crítico (alpha=0.05): t<sub>critico</sub> = ±2.048</li>
+            </ul>
+            
+            <div class="chart-box" style="margin-top: 15px; padding: 10px;">
+                <h4 style="color: #007bff; border: none; margin-bottom: 5px;">Visualización de la Decisión T-Student</h4>
+                <canvas id="t-student-chart" width="480" height="250" style="background-color: #f9f9f9; border: 1px solid #ddd;"></canvas>
+            </div>
+            
+            <div class="conclusion-box">
+                → Decisión: El t_empírico (<span id="t-empirico-conclusion"></span>) cae **fuera** de la zona de aceptación (±2.048). Se **RECHAZA** la H<sub>0</sub>.
+                <br>→ Conclusión: El Gasto en Mantenimiento es un predictor estadísticamente significativo de la Utilidad Operativa.
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>🔮 Pronóstico e Intervalos Dinámicos (95% de Confianza)</h2>
+
+        <div class="slider-control">
+            <label for="mantenimiento-slider">
+                Seleccione el Gasto en Mantenimiento (X<sub>0</sub>): 
+                <span style="font-size: 1.2em; color: #ff9800;">
+                    <span id="mantenimiento-valor">40</span> Miles ARS
+                </span>
+            </label>
+            <input type="range" id="mantenimiento-slider" min="10" max="60" value="40" step="1">
+            <p style="font-style: italic; font-size: 0.9em; margin-top: 5px;">*El rango interactivo de X<sub>0</sub> se ha ampliado a 60 para ilustrar la **extrapolación** y el ensanchamiento de los intervalos.</p>
+        </div>
+        
+        <div class="forecast-box">
+            <h3>UTILIDAD OPERATIVA ESTIMADA (Y)</h3>
+            <p><span id="utilidad-estimada">$ 171.03</span></p>
+            <p style="font-size: 1.2em;">Miles de ARS</p>
+        </div>
+
+        <div class="interval-grid">
+            <div class="interval-item ic">
+                <h4>Intervalo de Confianza (IC) para media cond Y|X<sub>0</h4>
+                <p><span id="ic-lower"></span> a <span id="ic-upper"></span></p>
+                <p style="font-size: 0.8em; font-weight: normal;">(Estima el promedio de todas las fábricas con X)</p>
+            </div>
+
+            <div class="interval-item ip">
+                <h4>Intervalo de Predicción (IP) para Y<sub>nueva</sub>|X<sub>0</sub></h4>
+                <p><span id="ip-lower"></span> a <span id="ip-upper"></span></p>
+                <p style="font-size: 0.8em; font-weight: normal;">(Estima la utilidad de una sola fábrica con X<sub>0</sub>)</p>
+            </div>
+        </div>
+
+        <div class="comparison-note">
+            <h4>Análisis de Amplitud del Intervalo</h4>
+            <p>Observe que el Intervalo de Predicción (IP) es siempre más AMPLIO que el Intervalo de Confianza (IC). Esto se debe a que el IP incluye la variabilidad del valor individual que se predice (S<sub>Y.X</sub>), además de la variabilidad de la recta estimada. ¡Deslice X<sub>0</sub> cerca de 60 para ver cómo ambos intervalos se amplían rápidamente!</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- 1. BASE DE DATOS Y CONSTANTES ---
+    const X = [15, 18, 20, 14, 16, 19, 23, 27, 30, 17, 22, 25, 28, 31, 34, 30, 26, 21, 24, 18, 35, 38, 40, 32, 36, 39, 37, 33, 29, 25];
+    const Y = [82, 88, 95, 80, 85, 92, 105, 124, 134, 86, 108, 117, 127, 135, 144, 132, 120, 102, 115, 90, 155, 165, 170, 142, 160, 168, 162, 148, 128, 118];
+    const n = X.length; // 30
+    const gl = n - 2; // 28
+
+    // Valor t crítico para α=0.05 y gl=28 (de la tabla t-Student)
+    const t_critical = 2.048; 
+    
+    // --- 2. CÁLCULO DE LA REGRESIÓN LINEAL SIMPLE (RLS) Y VARIABILIDAD ---
+    let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+
+    for (let i = 0; i < n; i++) {
+        sumX += X[i];
+        sumY += Y[i];
+        sumXY += X[i] * Y[i];
+        sumXX += X[i] * X[i];
+    }
+
+    const meanX = sumX / n;
+    const meanY = sumY / n;
+    
+    const numerator = (n * sumXY) - (sumX * sumY);
+    const denominator = (n * sumXX) - (sumX * sumX);
+    
+    const b1 = numerator / denominator; // Pendiente (3.65319)
+    const b0 = meanY - (b1 * meanX);    // Intercepción (24.90469)
+
+    // Suma de Cuadrados de X menos la Media (SCX)
+    let SCX = 0;
+    for (let i = 0; i < n; i++) {
+        SCX += (X[i] - meanX) ** 2;
+    }
+
+    // Suma de Cuadrados de Y (SCT)
+    let SCT = 0;
+    for (let i = 0; i < n; i++) {
+        SCT += (Y[i] - meanY) ** 2;
+    }
+
+    // Cálculo del R²
+    const SSR = (b1 ** 2) * SCX;
+    const R2 = SSR / SCT;
+    
+    // Cálculo de la Suma de Cuadrados de los Errores (SCE) y Residuos
+    let SCE = 0;
+    const Residuos = [];
+    for (let i = 0; i < n; i++) {
+        const Y_hat = b0 + b1 * X[i];
+        const e_i = Y[i] - Y_hat;
+        SCE += e_i ** 2;
+        Residuos.push(e_i);
+    }
+
+    // Error Estándar de la Estimación (S_YX)
+    const S_YX = Math.sqrt(SCE / gl); 
+    
+    // Error estándar de la Pendiente (Sb1) (necesario para t-empírico)
+    const Sb1 = S_YX / Math.sqrt(SCX);
+    
+    // T-Empírico
+    const t_empirical = b1 / Sb1;
+
+
+    // --- 3. FUNCIONES DE INTERACTIVIDAD (PRONÓSTICO E INTERVALOS) ---
+    
+    const slider = document.getElementById('mantenimiento-slider');
+    const valorDisplay = document.getElementById('mantenimiento-valor');
+    const utilidadDisplay = document.getElementById('utilidad-estimada');
+    const icLowerDisplay = document.getElementById('ic-lower');
+    const icUpperDisplay = document.getElementById('ic-upper');
+    const ipLowerDisplay = document.getElementById('ip-lower');
+    const ipUpperDisplay = document.getElementById('ip-upper');
+
+    function updateDashboard() {
+        const X0 = parseFloat(slider.value); 
+        const Y_hat = b0 + (b1 * X0);         
+
+        const SE_IC_term = (1 / n) + ((X0 - meanX) ** 2) / SCX;
+        const SE_IC = S_YX * Math.sqrt(SE_IC_term);
+
+        const SE_IP_term = 1 + (1 / n) + ((X0 - meanX) ** 2) / SCX;
+        const SE_IP = S_YX * Math.sqrt(SE_IP_term);
+        
+        const margin_ic = t_critical * SE_IC;
+        const IC_lower = Y_hat - margin_ic;
+        const IC_upper = Y_hat + margin_ic;
+
+        const margin_ip = t_critical * SE_IP;
+        const IP_lower = Y_hat - margin_ip;
+        const IP_upper = Y_hat + margin_ip;
+        
+        // --- ACTUALIZACIÓN DEL DISPLAY ---
+        valorDisplay.textContent = X0.toFixed(0);
+        utilidadDisplay.textContent = `$ ${Y_hat.toFixed(2)}`;
+
+        // IC
+        icLowerDisplay.textContent = `$ ${IC_lower.toFixed(2)}`;
+        icUpperDisplay.textContent = `$ ${IC_upper.toFixed(2)}`;
+
+        // IP
+        ipLowerDisplay.textContent = `$ ${IP_lower.toFixed(2)}`;
+        ipUpperDisplay.textContent = `$ ${IP_upper.toFixed(2)}`;
+    }
+
+    slider.addEventListener('input', updateDashboard);
+
+
+    // --- 4. DISPLAY DE RESULTADOS ESTÁTICOS Y KPIs ---
+    
+    document.getElementById('b1-display').textContent = b1.toFixed(4);
+    document.getElementById('b0-display').textContent = b0.toFixed(4);
+    document.getElementById('r2-display').textContent = (R2 * 100).toFixed(2);
+    document.getElementById('syx-display').textContent = S_YX.toFixed(3); 
+    
+    document.getElementById('t-empirico-display').textContent = ` ≈ ${t_empirical.toFixed(2)}`;
+    document.getElementById('t-empirico-conclusion').textContent = `${t_empirical.toFixed(2)}`;
+
+
+    document.getElementById('ecuacion-b0').textContent = b0.toFixed(2);
+    document.getElementById('ecuacion-b1').textContent = b1.toFixed(2);
+    
+    // Ejecutar al inicio para mostrar los valores iniciales (X0=40)
+    updateDashboard(); 
+
+
+    // --- 5. FUNCIONES DE GRÁFICOS (Canvas) ---
+
+    // Parámetros de escalado comunes
+    const chartWidth = 480;
+    const chartHeight = 350;
+    const padding = 30;
+
+    // Rango de Datos
+    const minX = Math.min(...X); // 14
+    const maxX = Math.max(...X); // 40
+    const minY = Math.min(...Y); // 80
+    const maxY = Math.max(...Y); // 170
+
+    // Escala para el Gráfico de Regresión
+    const xScaleReg = (x) => padding + (x - minX) / (maxX - minX) * (chartWidth - 2 * padding);
+    const yScaleReg = (y) => chartHeight - padding - (y - minY) / (maxY - minY) * (chartHeight - 2 * padding);
+    
+    // Escala para el Gráfico de Residuos
+    const maxResiduo = Math.max(...Residuos.map(Math.abs)); // ~ 3.5
+    const yScaleRes = (e) => chartHeight / 2 - e / maxResiduo * (chartHeight / 2 - padding);
+
+    // Dibuja el Gráfico de Regresión
+    function drawRegresionChart() {
+        const canvas = document.getElementById('regresion-chart');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, chartWidth, chartHeight);
+
+        // 1. Ejes (simplificados)
+        ctx.beginPath();
+        ctx.strokeStyle = '#000000';
+        // Eje X
+        ctx.moveTo(padding, chartHeight - padding);
+        ctx.lineTo(chartWidth - padding, chartHeight - padding);
+        // Eje Y
+        ctx.moveTo(padding, chartHeight - padding);
+        ctx.lineTo(padding, padding);
+        ctx.stroke();
+        
+        // Etiquetas (simplificadas)
+        ctx.fillStyle = '#000000';
+        ctx.fillText('X (Mantenimiento)', chartWidth - padding - 100, chartHeight - 10);
+        ctx.fillText('Y (Utilidad)', 5, padding);
+        
+        // 2. Recta de Regresión (Línea)
+        ctx.beginPath();
+        ctx.strokeStyle = '#dc3545'; // Rojo
+        ctx.lineWidth = 3;
+        
+        // Inicio de la línea (Xmin)
+        const Y_hat_start = b0 + b1 * minX;
+        ctx.moveTo(xScaleReg(minX), yScaleReg(Y_hat_start));
+        
+        // Fin de la línea (Xmax)
+        const Y_hat_end = b0 + b1 * maxX;
+        ctx.lineTo(xScaleReg(maxX), yScaleReg(Y_hat_end));
+        ctx.stroke();
+
+        // 3. Puntos de Dispersión
+        for (let i = 0; i < n; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = '#007bff'; // Azul
+            ctx.arc(xScaleReg(X[i]), yScaleReg(Y[i]), 3, 0, Math.PI * 2); // Dibujar círculo
+            ctx.fill();
+        }
+    }
+
+    // Dibuja el Gráfico de Residuos
+    function drawResiduosChart() {
+        const canvas = document.getElementById('residuos-chart');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, chartWidth, chartHeight);
+
+        // 1. Línea Cero (Eje X)
+        ctx.beginPath();
+        ctx.strokeStyle = '#dc3545'; // Rojo
+        ctx.lineWidth = 1;
+        ctx.moveTo(padding, chartHeight / 2);
+        ctx.lineTo(chartWidth - padding, chartHeight / 2);
+        ctx.stroke();
+        
+        // 2. Ejes (simplificados)
+        ctx.beginPath();
+        ctx.strokeStyle = '#000000';
+        // Eje Y (Residuos)
+        ctx.moveTo(padding, padding);
+        ctx.lineTo(padding, chartHeight - padding);
+        ctx.stroke();
+        
+        // Etiquetas (simplificadas)
+        ctx.fillStyle = '#000000';
+        ctx.fillText('X (Mantenimiento)', chartWidth - padding - 100, chartHeight - 10);
+        ctx.fillText('Residuos (e)', 5, padding);
+        
+        // 3. Puntos de Residuos
+        for (let i = 0; i < n; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = '#28a745'; // Verde
+            ctx.arc(xScaleReg(X[i]), yScaleRes(Residuos[i]), 3, 0, Math.PI * 2); // Dibujar círculo
+            ctx.fill();
+            
+            // Línea de Cero al Residuo
+            ctx.beginPath();
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(xScaleReg(X[i]), chartHeight / 2);
+            ctx.lineTo(xScaleReg(X[i]), yScaleRes(Residuos[i]));
+            ctx.stroke();
+        }
+    }
+    
+    // Dibuja el Gráfico de la T-Student (NUEVA FUNCIÓN)
+    function drawTDistributionChart() {
+        const canvas = document.getElementById('t-student-chart');
+        const ctx = canvas.getContext('2d');
+        const chartHeightT = 250; 
+        const chartWidthT = 480; 
+        
+        ctx.clearRect(0, 0, chartWidthT, chartHeightT);
+
+        // Parámetros
+        const t_crit = t_critical; // 2.048
+        const t_emp = t_empirical; // ~ 64.91
+        const x_range = 4; // Rango visible para t-values
+        const y_scale = 1000; // Factor de escalado vertical
+
+        const xToPixel = (x) => padding + (x + x_range) / (2 * x_range) * (chartWidthT - 2 * padding);
+        const yToPixel = (y) => chartHeightT - padding - y * y_scale;
+
+        // Función de Densidad Normal (Proxy para t-distribución con df=28)
+        const pdf_proxy = (x) => Math.exp(-0.5 * x * x) * 0.35; 
+
+        // 1. Línea Cero (Eje X)
+        ctx.beginPath();
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 1;
+        ctx.moveTo(padding, chartHeightT - padding);
+        ctx.lineTo(chartWidthT - padding, chartHeightT - padding);
+        ctx.stroke();
+
+        // 2. Zonas de Aceptación/Rechazo
+        
+        // Zona de Aceptación (Área Azul)
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(173, 216, 230, 0.5)'; // Azul claro
+        ctx.moveTo(xToPixel(-t_crit), chartHeightT - padding);
+        for (let x = -t_crit; x <= t_crit; x += 0.05) {
+            ctx.lineTo(xToPixel(x), yToPixel(pdf_proxy(x)));
+        }
+        ctx.lineTo(xToPixel(t_crit), chartHeightT - padding);
+        ctx.fill();
+
+        // Zonas de Rechazo (Área Roja)
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(220, 53, 69, 0.5)'; // Rojo
+        // Cola Izquierda
+        ctx.moveTo(xToPixel(-x_range), chartHeightT - padding);
+        for (let x = -x_range; x <= -t_crit; x += 0.05) {
+             ctx.lineTo(xToPixel(x), yToPixel(pdf_proxy(x)));
+        }
+        ctx.lineTo(xToPixel(-t_crit), chartHeightT - padding);
+        ctx.fill();
+
+        // Cola Derecha
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(220, 53, 69, 0.5)'; // Rojo
+        ctx.moveTo(xToPixel(t_crit), chartHeightT - padding);
+        for (let x = t_crit; x <= x_range; x += 0.05) {
+             ctx.lineTo(xToPixel(x), yToPixel(pdf_proxy(x)));
+        }
+        ctx.lineTo(xToPixel(x_range), chartHeightT - padding);
+        ctx.fill();
+
+        // 3. Dibujar la Curva (Línea)
+        ctx.beginPath();
+        ctx.strokeStyle = '#007bff';
+        ctx.lineWidth = 2;
+        
+        for (let x = -x_range; x <= x_range; x += 0.05) {
+            const y = pdf_proxy(x);
+            const px = xToPixel(x);
+            const py = yToPixel(y);
+            if (x === -x_range) {
+                ctx.moveTo(px, py);
+            } else {
+                ctx.lineTo(px, py);
+            }
+        }
+        ctx.stroke();
+
+        // 4. Marcas de T-Crítico
+        ctx.strokeStyle = '#dc3545';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        
+        // Líneas T-Crítico
+        ctx.beginPath();
+        ctx.moveTo(xToPixel(-t_crit), chartHeightT - padding);
+        ctx.lineTo(xToPixel(-t_crit), yToPixel(pdf_proxy(-t_crit)));
+        ctx.moveTo(xToPixel(t_crit), chartHeightT - padding);
+        ctx.lineTo(xToPixel(t_crit), yToPixel(pdf_proxy(t_crit)));
+        ctx.stroke();
+        
+        ctx.setLineDash([]); // Reset line style
+
+        // 5. Etiquetas de Puntos Críticos
+        ctx.fillStyle = '#000000';
+        ctx.font = '12px Arial';
+        ctx.fillText(`-${t_crit.toFixed(3)}`, xToPixel(-t_crit) - 20, chartHeightT - padding + 15);
+        ctx.fillText(`0`, xToPixel(0) - 5, chartHeightT - padding + 15);
+        ctx.fillText(`+${t_crit.toFixed(3)}`, xToPixel(t_crit) - 5, chartHeightT - padding + 15);
+        
+        // Etiquetas de Zonas
+        ctx.fillStyle = '#dc3545';
+        ctx.fillText('Rechazo', xToPixel(t_crit) + 5, yToPixel(pdf_proxy(t_crit)) - 10);
+        ctx.fillStyle = 'darkblue';
+        ctx.fillText('Aceptación', xToPixel(0) - 40, yToPixel(pdf_proxy(0)) - 10);
+
+        // 6. Indicador T-Empírico (Fuera de Escala)
+        ctx.fillStyle = '#000000';
+        ctx.font = 'bold 14px Arial';
+        
+        // Flecha a la derecha
+        const arrowX = chartWidthT - padding - 10;
+        const arrowY = 30;
+        ctx.beginPath();
+        ctx.strokeStyle = '#28a745'; 
+        ctx.lineWidth = 2;
+        ctx.moveTo(arrowX - 20, arrowY);
+        ctx.lineTo(arrowX, arrowY);
+        ctx.lineTo(arrowX - 5, arrowY - 5);
+        ctx.moveTo(arrowX, arrowY);
+        ctx.lineTo(arrowX - 5, arrowY + 5);
+        ctx.stroke();
+
+        ctx.fillStyle = '#28a745'; // Verde para énfasis
+        ctx.fillText(`t_empírico ≈ ${t_emp.toFixed(2)}`, arrowX - 150, arrowY + 5);
+        ctx.fillText(`(Zona de Rechazo!)`, arrowX - 150, arrowY + 25);
+    }
+
+    // Dibujar los gráficos al cargar
+    drawRegresionChart();
+    drawResiduosChart();
+    drawTDistributionChart(); // <-- LLAMADA A LA NUEVA FUNCIÓN
+
+</script>
+</body>
+</html>
