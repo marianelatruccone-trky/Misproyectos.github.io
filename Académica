@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategias y Desafíos Académicos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+/* 1. CONFIGURACIÓN BÁSICA */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #cbd5e1; /* Fondo externo neutro */
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  margin: 0;
+  min-height: 100vh;
+  padding: 20px 0;
+  place-items: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.slide-container {
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  height: 720px;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px;
+  position: relative;
+  width: 1280px;
+}
+
+/* Decoración de Fondo "Dinámica" */
+.slide-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(37,99,235,0.1) 0%, rgba(255,255,255,0) 70%);
+  z-index: 0;
+}
+.slide-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, rgba(255,255,255,0) 70%);
+  z-index: 0;
+}
+
+.slide-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 2. TIPOGRAFÍA */
+.slide-container h1,
+.slide-container h2,
+.slide-container h3 {
+  color: #1e3a8a; /* Azul Universitario Profundo */
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  font-weight: 700;
+}
+
+.slide-container .slide-title {
+  font-size: 48px;
+  margin-bottom: 40px;
+  border-left: 8px solid #f59e0b; /* Acento Ámbar/Dorado */
+  padding-left: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.slide-container h3 {
+  font-size: 24px;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.slide-container p,
+.slide-container li {
+  color: #334155;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* 3. LAYOUTS ESPECÍFICOS */
+
+/* Two Column Tiled (Slide 1) */
+.two-column.tiled {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  width: 100%;
+  align-items: stretch;
+  height: 100%;
+}
+
+.two-column.tiled > div {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 30px;
+  border-top: 5px solid #2563eb; /* Acento Azul */
+  display: flex;
+  flex-direction: column;
+}
+
+.two-column.tiled ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.two-column.tiled li {
+  margin-bottom: 12px;
+  padding-left: 30px;
+  position: relative;
+}
+
+.two-column.tiled li i {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  color: #f59e0b; /* Iconos dorados */
+  font-size: 18px;
+}
+
+/* Sub-lista para bloques temáticos */
+.sub-list {
+  margin-top: 10px;
+  margin-left: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sub-list span {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid #bae6fd;
+}
+
+/* Grid Layout Personalizado (Slide 2 - Fortalezas) */
+.grid-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 25px;
+  width: 100%;
+  height: 100%;
+}
+
+.grid-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid #f1f5f9;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.grid-card:hover {
+  transform: translateY(-5px);
+  border-color: #f59e0b;
+}
+
+.grid-card .icon-circle {
+  width: 50px;
+  height: 50px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.grid-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.grid-card p {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+/* Bleed Image Layout (Slide 3) - MODIFICACIÓN: Ahora es un layout de contenido completo */
+.slide-container.content-only-layout {
+  display: flex;
+  flex-direction: column;
+  padding: 60px; /* Restaurar padding completo */
+  align-items: flex-start; /* Alinear contenido a la izquierda */
+  justify-content: center;
+}
+
+.challenge-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 800px; /* Limitar el ancho para mejor lectura */
+  margin: 0 auto; /* Centrar la lista */
+}
+
+.challenge-list li {
+  margin-bottom: 25px; /* Más espacio */
+  padding-left: 40px;
+  position: relative;
+  font-size: 20px; /* Un poco más grande */
+}
+
+.challenge-list li i {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  color: #dc2626; /* Rojo para desafíos */
+  font-size: 22px;
+}
+
+.challenge-sublist {
+  margin-top: 8px;
+  margin-left: 0;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.challenge-sublist span {
+  display: inline-block;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    justify-content: center;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: Estrategias y Modos de Organización -->
+<div class="slide-container" id="slide1">
+    <h2 class="slide-title">Estrategias</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <!-- Columna Izquierda: Estrategias -->
+            <div>
+                <h3><i class="fa-solid fa-graduation-cap" style="margin-right: 10px; color: #2563eb;"></i>Estrategias Didácticas</h3>
+                <ul>
+                    <li><i class="fa-solid fa-check-circle"></i>Dinámica teórico–práctica en cada encuentro.</li>
+                    <li><i class="fa-solid fa-brain"></i>Recuperación de saberes previos y resolución de problemas.</li>
+                    <li><i class="fa-solid fa-users"></i>Socialización y discusión colectiva.</li>
+                    <li><i class="fa-solid fa-map"></i>Uso de hoja de ruta con objetivos y actividades.</li>
+                    <li><i class="fa-solid fa-pen-to-square"></i>Trabajos prácticos áulicos y autoevaluativos (indoviduales/grupales-presenciales/virtuales).</li>
+                    <li><i class="fa-solid fa-clock"></i>Simulacro de examen final individual con autocorrección.</li>
+                    <li><i class="fa-solid fa-file-signature"></i>Examen Final Individual.</li>
+                </ul>
+            </div>
+            
+            <!-- Columna Derecha: Organización -->
+            <div style="border-top-color: #f59e0b;">
+                <h3 style="color: #b45309;"><i class="fa-solid fa-sitemap" style="margin-right: 10px; color: #f59e0b;"></i>Organización del Módulo</h3>
+                <ul>
+                    <li><i class="fa-solid fa-building-columns"></i>Cursado presencial (2 encuentros semanales: Campus y CRES).</li>
+                    <li><i class="fa-solid fa-people-group"></i>Equipo docente interdisciplinario (Duplas: Matemática + Cs. Es.).</li>
+                    <li><i class="fa-solid fa-layer-group"></i>Módulo organizado 4 bloques temáticos:
+                        <div class="sub-list">
+                            <span>Campos Numéricos</span>
+                            <span>Factorización</span>
+                            <span>Funciones</span>
+                            <span>Sistemas Ecuaciones</span>
+                        </div>
+                    </li>
+                    <li><i class="fa-solid fa-check"></i>Acreditación:               
+                            <div class="sub-list">
+                            <span>80% asistencia</span>
+                            <span>Participación actividades</span>
+                            <span>Evaluación Final</span>
+                            </div>
+.</li>
+                    <li><i class="fa-solid fa-laptop"></i>Soporte complementario: Moodle y GeoGebra.</li>
+                    <li><i class="fa-solid fa-list-check"></i>Seguimiento y registro personalizado.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 2: Fortalezas -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Fortalezas</h2>
+    <div class="content-area">
+        <!-- Layout personalizado usando grid para 6 items -->
+        <div class="grid-content">
+            <!-- Item 1 -->
+            <div class="grid-card">
+                <div class="icon-circle"><i class="fa-solid fa-handshake"></i></div>
+                <h3>Equipo Docente Multidisciplinar</h3>
+                <p>Trabajo articulado con planificación y estrategias diversas.</p>
+            </div>
+            <!-- Item 2 -->
+            <div class="grid-card">
+                <div class="icon-circle"><i class="fa-solid fa-user-check"></i></div>
+                <h3>Participación Activa</h3>
+                <p>Buen nivel de respuesta del estudiantado y presentación de actividades (75%).</p>
+            </div>
+            <!-- Item 3 -->
+            <div class="grid-card">
+                <div class="icon-circle"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>Rendimiento</h3>
+                <p>Apropiación progresiva de contenidos y resultados finales según tendencias generales. Considerando la población total, el porcentaje de aprobación se encuentra en el 55% (185 aspirantes).</p>
+            </div>
+            <!-- Item 4 -->
+            <div class="grid-card">
+                <div class="icon-circle"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                <h3>Seguimiento</h3>
+                <p>Acompañamiento, seguimiento y retroalimentación formativa continua y personalizada. Relevamiento de indicadores estadísticos</p>
+            </div>
+            <!-- Item 5 -->
+            <div class="grid-card">
+                <div class="icon-circle"><i class="fa-solid fa-bridge"></i></div>
+                <h3>Articulación</h3>
+                <p>Integración con nivel secundario e intercambio interinstitucional (Construcción de secuencias didácticas colectivas).</p>
+            </div>
+            <!-- Item 6 -->
+            <div class="grid-card">
+                <div class="icon-circle"><i class="fa-solid fa-laptop-code"></i></div>
+                <h3>Tecnología</h3>
+                <p>Uso de recursos tecnológicos que fortalecieron el vínculo pedagógico.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: Desafíos - Ahora solo con texto -->
+<div class="slide-container content-only-layout" id="slide3">
+    <!-- El título ya está ajustado para ocupar el ancho completo -->
+    <h2 class="slide-title" style="margin-bottom: 30px; border-left-color: #dc2626;">Desafíos</h2>
+    <div class="content-area">
+        <ul class="challenge-list">
+            <li>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <strong>Heterogeneidad</strong> en los saberes previos no trabajados en nivel secundario.
+            </li>
+            <li>
+                <i class="fa-solid fa-cube"></i>
+                <strong>Dificultades principales identificadas</strong>:
+                <div class="challenge-sublist">
+                    <span>Factorización</span>
+                    <span>Interpretación de funciones</span>
+                    <span>Sistemas de ecuaciones</span>
+                </div>
+            </li>
+            <li>
+                <i class="fa-solid fa-user-clock"></i>
+                <strong>Asistencia a clases (60%)</strong>. Impacto en la continuidad del proceso.
+            </li>
+            <li>
+                <i class="fa-solid fa-hands-holding-circle"></i>
+                Necesidad de fortalecer <strong>estrategias de acompañamiento a futuro</strong> para el acompañamiento de dificultades mayores.
+            </li>
+            <li>
+                <i class="fa-solid fa-arrows-left-right-to-line"></i>
+                Persistencia de <strong>heterogeneidad en las prácticas y didácticas</strong> entre secundaria y universidad.
+            </li>
+             <li>
+                <i class="fa-solid fa-hourglass-half"></i>
+                <strong>Apropiación heterogénea</strong> de contenidos trabajados en el grupo.
+            </li>
+        </ul>
+    </div>
+    <!-- ELIMINADO: El div con la clase 'image-container' ha sido removido. -->
+</div>
+
+</body>
+</html>
