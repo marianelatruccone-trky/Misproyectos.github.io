@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Gerencial La Soberana</title>
+    <style>
+        :root {
+            --primary-green: #2f5d50;
+            --danger: #d32f2f;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #333;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); padding: 20px; color: var(--text); line-height: 1.5; }
+        .container { max-width: 1150px; margin: 0 auto; background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        header { display: flex; align-items: center; gap: 20px; border-bottom: 3px solid var(--primary-green); margin-bottom: 30px; padding-bottom: 15px; }
+        .logo-header { width: 65px; height: auto; }
+        .header-text h1 { margin: 0; color: var(--primary-green); font-size: 22px; }
+
+        .selector-section { background: #eef2f1; padding: 15px; border-radius: 8px; margin-bottom: 25px; }
+        select { padding: 8px; border-radius: 5px; border: 1px solid var(--primary-green); font-size: 15px; cursor: pointer; }
+
+        .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: #fff; border: 1px solid #ddd; border-left: 5px solid var(--primary-green); padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-card h3 { font-size: 12px; margin: 0; color: #666; text-transform: uppercase; }
+        .stat-card p { font-size: 20px; font-weight: bold; margin: 8px 0 0; }
+        
+        .negative { color: var(--danger) !important; }
+        .positive { color: var(--primary-green) !important; }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th { background: var(--primary-green); color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
+
+        .interpretation-box { 
+            margin-top: 25px; 
+            padding: 20px; 
+            background: #fdf2f2; 
+            border-radius: 8px; 
+            border-left: 5px solid var(--danger); 
+        }
+        .interpretation-box h3 { margin-top: 0; font-size: 18px; color: var(--danger); }
+        .interpretation-box p { margin-bottom: 10px; }
+
+        .summary-mode { background: #f0f4f3; border-left-color: var(--primary-green); }
+        .summary-mode h3 { color: var(--primary-green); }
+
+        footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana" class="logo-header">
+        <div class="header-text">
+            <h1>Estado de Resultados - Informe Trimestral</h1>
+            <p>Cooperativa de Trabajo La Soberana</p>
+        </div>
+    </header>
+
+    <div class="selector-section">
+        <label><strong>Periodo de Análisis:</strong></label>
+        <select id="periodo" onchange="actualizar()">
+            <option value="oct">Octubre 2025</option>
+            <option value="nov">Noviembre 2025</option>
+            <option value="dic">Diciembre 2025</option>
+            <option value="trim">RESUMEN TRIMESTRAL CONSOLIDADO</option>
+        </select>
+    </div>
+
+    <div class="grid-stats">
+        <div class="stat-card"><h3>Ingresos</h3><p id="ing" class="positive"></p></div>
+        <div class="stat-card"><h3>Egresos</h3><p id="egr" class="negative"></p></div>
+        <div class="stat-card"><h3>Resultado Neto</h3><p id="res"></p></div>
+        <div class="stat-card"><h3>Rentabilidad %</h3><p id="rent"></p></div>
+    </div>
+
+    <div class="analysis-box">
+        <h2 id="titulo" style="font-size: 18px; color: var(--primary-green); margin-bottom: 15px;"></h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rubro de Egreso</th>
+                        <th>Monto</th>
+                        <th>% s/ Egresos (Inc. Rubro)</th>
+                        <th>% Incidencia Eg/Ing (Estructura)</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla"></tbody>
+            </table>
+        </div>
+
+        <div id="boxInterpretacion" class="interpretation-box">
+            <h3 id="interpretacionTitulo">Interpretación de Incidencia</h3>
+            <div id="interpretacionCuerpo"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Elaborado por: <strong>Lic. Marianela Truccone</strong></p>
+        <p>Matrícula: <strong>M.P. RD Nº 54-00083-6</strong></p>
+    </footer>
+</div>
+
+<script>
+    const db = {
+        oct: {
+            t: "Desglose Octubre 2025",
+            i: "$13.365.000", e: "$16.711.000", r: "-$3.346.000", rent: "-25.04%",
+            txt: "<p>Octubre marca el pico de desequilibrio operativo del trimestre. La <b>incidencia de los retornos alcanzó el 71% de la facturación bruta y el 57% en relación a los egresos</b>.</p><p>El déficit se profundiza con el gasto en mantenimiento de producción ($3.389.000) y el impacto de compras de insumos ($2.340.000), resultando en que por cada $100 ingresados, la cooperativa gastó $125.</p>",
+            filas: [
+                ["Retornos y Sueldos", "$9.500.000", "56.84%", "71.08%"],
+                ["Compra de Insumos tambo", "$700.000", "4.18%", "5.23%"],
+                ["Compra de Insumos ponedoras", "$250.000", "1.49%", "1.87%"],
+                ["Compra de Insumos salames", "$600.000", "3.59%", "4.49%"],
+                ["Compra de Insumos cerdos", "$550.000", "3.29%", "4.11%"],
+                ["Compra de Insumos quesos", "$240.000", "1.43%", "1.79%"],
+                ["Mantenimiento", "$600.000", "3.59%", "4.49%"],
+                ["Mantenimiento vehículos", "$3.389.000", "20.28%", "25.35%"],
+                ["Honorarios Prof.", "$190.000", "1.14%", "1.42%"],
+                ["Gastos Bancarios", "$480.000", "2.87%", "3.59%"]
+            ]
+        },
+        nov: {
+            t: "Desglose Noviembre 2025",
+            i: "$16.050.000", e: "$18.885.686", r: "-$2.835.686", rent: "-17.67%",
+            txt: "<p>En noviembre, la incidencia crítica se desplaza hacia la carga fiscal. Los <b>Impuestos Pagados ($2.295.000) representan un 14.3% de los ingresos</b>. Aunque hubo incremento en insumos ($3.141.586), el peso de los sueldos sigue operando al límite (49.84% sobre ingresos).</p>",
+            filas: [
+                ["Retornos y Sueldos", "$8.000.000", "42.86%", "49.84%"],
+                ["Impuestos Pagados", "$2.295.000", "12.15%", "14.30%"],
+                ["Compra de Insumos tambo", "$640.000", "3.39%", "3.99%"],
+                ["Compra de Insumos pollos", "$1.451.586", "7.68%", "9.04%"],
+                ["Compra de Insumos salames", "$450.000", "2.38%", "2.80%"],
+                ["Compra de Insumos cerdos", "$600.000", "3.17%", "3.74%"],
+                ["Mantenimiento", "$4.338.100", "22.98%", "27.03%"],
+                ["Honorarios Prof.", "$190.000", "1.01%", "1.18%"],
+                ["Embalaje y envíos", "$689.000", "3.65%", "4.29%"]
+            ]
+        },
+        dic: {
+            t: "Desglose Diciembre 2025",
+            i: "$20.734.000", e: "$25.165.931", r: "-$4.431.931", rent: "-21.38%",
+            txt: "<p>Diciembre muestra una recuperación en la facturación. A pesar de los aguinaldos e incremento en <b>insumos (18% de incidencia en ingresos)</b>, el mes demuestra que superando los $20M se mejora la eficiencia, aunque el gasto corriente sigue siendo alto. De los gastos de mantenimiento $4.100.000 representan mercadería en mal composición (quesos)</p>",
+            filas: [
+                ["Retornos y Sueldos", "$12.920.000", "51.34%", "62.31%"],
+                ["Compra de Insumos tambo", "$500.000", "1.99%", "2.41%"],
+                ["Compra de Insumos pollos", "$1.342.507", "5.33%", "6.47%"],
+                ["Compra de Insumos salames", "$480.000", "1.91%", "2.31%"],
+                ["Compra de Insumos cerdos", "$600.000", "2.38%", "2.89%"],
+                ["Compra de Insumos quesos", "$890.000", "3.54%", "4.29%"],
+                ["Mantenimiento", "$6.301.424", "25.04%", "30.39%"],
+                ["Mantenimiento vehículos", "$300.000", "1.19%", "1.45%"],
+                ["Combustible", "$300.000", "1.19%", "1.45%"],
+                ["Honorarios prof.", "$250.000", "0.99%", "1.20%"],
+                ["Embalaje y envíos", "$720.000", "2.86%", "3.47%"],
+                ["Gastos Bancarios", "$520.000", "2.07%", "2.51%"]
+            ]
+        },
+        trim: {
+            t: "Resumen Cualitativo y Técnico del Trimestre acumulado",
+            i: "$50.149.000", e: "$60.762.000", r: "-$10.613.617", rent: "-21.164%",
+            txt: `<p><b>Visión Estratégica La Soberana:</b> El análisis del trimestre arroja una incidencia total de egresos del 114%, lo que indica que la estructura actual excede la capacidad de facturación. Sin embargo, dado que el 62% de la incidencia de ingresos recae en el capital humano (propósito central de la entidad), las recomendaciones no se orientan al recorte, sino a la eficiencia operativa:</p>
+                  <ul>
+                    <li><b>Dinámica de Retornos:</b> Vincular excedentes extraordinarios a niveles de facturación superiores a $22millones (o a monto a determinar), asegurando sostenibilidad sin afectar el retiro base digno.</li>
+                    <li><b>Conciencia de Insumos:</b> Reducir el desperdicio en las unidades productivas (18.5% de incidencia) para transformar el ahorro en capital social.</li>
+                    <li><b>Capacitación en Mantenimiento:</b> Reducir el peso del mantenimiento (30%) mediante tareas preventivas.</li>
+                    <li><b>Escalamiento de Valor:</b> Analizar productos con mayor margen (quesos/chacinados) para que el esfuerzo humano genere mayor rentabilidad. Espíritu: Aprovechar la historia de la cooperativa y la calidad artesanal para justificar precios especiales en el mercado, protegiendo así el retorno del trabajador.</li>
+<li><b>Fondo de reserva:</b> Revisión de potencialidad de creación de un fondo de reserva para gastos impositivos y bancarios.</li>
+                  </ul>
+                  <p><b>Conclusión:</b> La sostenibilidad futura depende de alcanzar el punto de equilibrio mediante el crecimiento genuino de los ingresos y la eficiencia de procesos.</p>`,
+            filas: [
+                ["Total Retornos", "$30.420.000", "50.06%", "60.66%"],
+                ["Total Insumos", "$9.294.093", "15.29%", "18.53%"],
+                ["Total Impuestos", "$2.295.000", "3.78%", "4.58%"],
+                ["Total Mantenimiento", "$14.978.524", "24.65%", "29.86%"],
+                ["Total Honorarios", "$630.000", "1.03%", "1.26%"],
+                ["Gastos Bancarios/Otros", "$1.086.000", "1.79%", "2.16%"]
+            ]
+        }
+    };
+
+    function actualizar() {
+        const v = document.getElementById('periodo').value;
+        const data = db[v];
+
+        document.getElementById('ing').innerText = data.i;
+        document.getElementById('egr').innerText = data.e;
+        document.getElementById('res').innerText = data.r;
+        document.getElementById('res').className = "negative";
+        document.getElementById('rent').innerText = data.rent;
+        document.getElementById('rent').className = "negative";
+
+        document.getElementById('titulo').innerText = data.t;
+        document.getElementById('interpretacionCuerpo').innerHTML = data.txt;
+
+        const box = document.getElementById('boxInterpretacion');
+        if(v === 'trim') {
+            box.classList.add('summary-mode');
+            document.getElementById('interpretacionTitulo').innerText = "Análisis Estratégico Consolidado";
+        } else {
+            box.classList.remove('summary-mode');
+            document.getElementById('interpretacionTitulo').innerText = "Análisis de Incidencia Mensual";
+        }
+
+        const tbody = document.getElementById('tabla');
+        tbody.innerHTML = data.filas.map(f => `
+            <tr>
+                <td>${f[0]}</td>
+                <td><strong>${f[1]}</strong></td>
+                <td>${f[2]}</td>
+                <td class="negative" style="font-weight:bold">${f[3]}</td>
+            </tr>
+        `).join('');
+    }
+
+    window.onload = actualizar;
+</script>
+</body>
+</html>
