@@ -48,7 +48,26 @@
 
         @media (max-width: 600px) {
             .header-text h1 { font-size: 18px; }
-            table { font-size: 11px; }
+            
+            /* Ajuste de tarjetas de arriba para que no se amontonen */
+            .grid-stats { 
+                grid-template-columns: 1fr 1fr; /* Pone 2 arriba y 2 abajo */
+            }
+            .stat-card p { font-size: 16px; }
+
+            /* ELIMINAR EL ANCHO FIJO DE LA TABLA */
+            table { 
+                font-size: 11px; 
+                min-width: auto; /* Esto quita los 800px que te molestan */
+            }
+            
+            td, th { padding: 6px 4px; } /* Achica los espacios internos */
+
+            /* Evita que el contenedor blanco tenga demasiado margen lateral */
+            .container { padding: 10px; }
+            
+            /* Ajuste para que el texto de interpretación no quede tan apretado */
+            .interpretation-box { padding: 15px; }
         }
     </style>
 </head>
@@ -235,3 +254,4 @@
 </script>
 </body>
 </html>
+
