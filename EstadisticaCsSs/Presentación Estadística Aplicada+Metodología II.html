@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trayecto Metodológico 2026 - IAPCS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --beige-dark: #e8e2d9;
+            --beige-light: #f5f2ed;
+            --accent: #c5b49a;
+            --text-dark: #2c2c2c;
+            --white: #ffffff;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--beige-light); 
+            color: var(--text-dark); 
+            margin: 0; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            background-color: var(--beige-dark);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin: 0;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        header p {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            color: #555;
+        }
+
+        .dashboard {
+            max-width: 1100px;
+            width: 90%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: -40px 0 60px 0;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card.full-width { grid-column: 1 / -1; }
+        .card.highlight { background-color: var(--text-dark); color: var(--white); }
+        
+        h2, h3 { font-family: 'Playfair Display', serif; margin-top: 0; font-weight: 700; border-bottom: 1px solid var(--beige-dark); padding-bottom: 10px; }
+        .highlight h3 { border-bottom: 1px solid #444; }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+        .anual { background: var(--text-dark); color: white; }
+        .cuatrimestral { border: 1px solid var(--text-dark); color: var(--text-dark); }
+
+        ul { list-style: none; padding: 0; margin: 0; }
+        ul li { margin-bottom: 12px; padding-left: 20px; position: relative; font-size: 0.9rem; line-height: 1.4; }
+        ul li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+
+        .step-list { counter-reset: step; }
+        .step-list li { padding-left: 35px; margin-bottom: 15px; }
+        .step-list li::before { 
+            counter-increment: step; 
+            content: counter(step); 
+            background: var(--accent); 
+            color: white; 
+            width: 22px; height: 22px; 
+            border-radius: 50%; 
+            display: inline-flex; 
+            justify-content: center; align-items: center; 
+            font-size: 0.75rem; position: absolute; left: 0;
+        }
+
+        /* CONTENEDOR PARA AGRUPAR LOS CUADROS FINALES */
+        .academic-group {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .academic-group { grid-template-columns: 1fr; }
+        }
+
+        .infographic {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: block;
+        }
+
+        .footer-text { font-style: italic; color: var(--accent); margin-top: auto; padding-top: 15px; font-size: 0.85rem; }
+
+        footer { padding: 40px; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.6; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <p>Instituto de Ciencias Sociales — UNVM</p>
+    <h1>Taller de Metodología de la Investigación en Ciencias Sociales II<br>+ Estadística Aplicada a las Ciencias Sociales</h1>
+    <p>Ciencia Política (3°) • Sociología (2°) • Desarrollo Local-Regional (2°)</p>
+</header>
+
+<div class="dashboard">
+    
+    <div class="card full-width">
+        <h3>Propuesta de Articulación de Espacios Curriculares</h3>
+        <p>Investigar en ciencias sociales no es un acto fragmentado. Buscamos <strong>pasar de la reflexión teórica a la producción sistemática de evidencia</strong> a través de un trayecto que integra el diseño y el análisis. Entendemos ambos espacios como dos dimensiones del mismo oficio social.
+        Buscaremos formular problemas investigables, traducir conceptos en variables observables, analizar información de manera sistemática y elaborar conclusiones fundadas que contribuyan a la comprensión de los procesos sociales. Asimismo, se busca que dichas preguntas emerjan de problemáticas concretas y cercanas a sus trayectorias académicas y experiencias sociales.</p>
+    </div>
+
+    <div class="card">
+        <span class="badge cuatrimestral">Cuatrimestral</span>
+        <h3>Estadística Aplicada a las Ciencias Sociales</h3>
+        <p>Enfoque en la <strong>construcción del dato</strong>:</p>
+        <ul>
+            <li>Construcción del problema de investigación.</li>
+            <li>Diseño metodológico (decisiones estratégicas).</li>
+            <li>Unidades de análisis, población y muestra.</li>
+            <li>Operacionalización: de conceptos a variables e indicadores.</li>
+        </ul>
+        <p class="footer-text">Énfasis en el manejo de herramientas metodológicas de la Estadística que les permitan describir, analizar e interpretar información cuantitativa aplicada a problemáticas económicas, sociales y territoriales.</p>
+    </div>
+
+    <div class="card">
+        <span class="badge anual">Anual</span>
+        <h3>Taller de Metodología de la investigación en las Cs. Ss.</h3>
+        <p>Enfoque en el <strong>análisis y argumentación</strong>:</p>
+        <ul>
+            <li>Organización de datos y software específico.</li>
+            <li>Estadística descriptiva (frecuencias y medidas).</li>
+            <li>Estadística inferencial y pruebas de hipótesis.</li>
+            <li>Análisis de correlación.</li>
+        </ul>
+        <p class="footer-text">La estadística como un instrumento para formular preguntas sobre lo social, producir evidencia empírica y sostener argumentaciones fundadas en datos.</p>
+    </div>
+
+    <div class="card">
+        <h3>Dinámica de Cursado</h3>
+        <p>El grupo es una unidad de producción. La organización implica:</p>
+        <ul>
+            <li><strong>Rotación:</strong> Todo el grupo cursa primero un espacio y luego los estudiantes del espacio anual rotan al otro espacio.</li>
+            <li><strong>Objeto Único:</strong> Ambos espacios trabajan sobre el mismo proceso de investigación.</li>
+            <li><strong>Aula-Taller:</strong> Espacios de formación teórico-práctica en laboratorios informáticos.</li>
+        </ul>
+    </div>
+
+    <div class="card highlight full-width">
+        <div style="display: flex; flex-wrap: wrap; gap: 30px; align-items: start;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3>El Trabajo Integrador: Informe Final</h3>
+                <p>Producción de un informe estadístico basado en la base de datos única construida por el curso:</p>
+                <ul class="step-list">
+                    <li><strong>Introducción y Marco:</strong> Definición de objetivos, hipótesis y antecedentes. Selección de variables e indicadores.</li>
+                    <li><strong>Metodología:</strong> Diseño de encuesta en <em>Google Forms</em>, aplicación y plan de cruces de variables.</li>
+                    <li><strong>Análisis Descriptivo:</strong> Caracterización sociodemográfica y frecuencias de las variables más relevantes.</li>
+                    <li><strong>Producción Estadística:</strong> Elaboración de 10 cruces de variables con sentido, 5 gráficos, medidas de posición/dispersión y diagramas de caja.</li>
+                    <li><strong>Inferencia y Conclusión:</strong> Contraste de hipótesis y síntesis de resultados relacionando la parte descriptiva con la inferencial.</li>
+                </ul>
+            </div>
+            <div style="flex: 1; min-width: 300px; text-align: center;">
+                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 10px;">Visualización del Proceso</p>
+                <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/EstadisticaCsSs/infografia%20proyecto%20de%20investigacion%20collage%20cafe.png" alt="Hoja de ruta del informe" class="infographic">
+            </div>
+        </div>
+        <p class="footer-text" style="color: var(--accent); border-top: 1px solid #444; margin-top: 15px; padding-top: 10px;">
+            * Requisito: Coherencia total entre objetivos, plan de cruces y conclusiones.
+        </p>
+    </div>
+
+    <div class="academic-group">
+        <div class="card">
+            <h3>Lógica Anual del Proceso</h3>
+            <p><strong>Primer Tramo:</strong> Definición del diseño, recolección de datos y análisis descriptivo inicial.</p>
+            <p><strong>Segundo Tramo:</strong> Aplicación de inferencia estadística, relación compleja entre variables e interpretación sociológica final.</p>
+        </div>
+
+        <div class="card">
+            <h3>Sentido Formativo</h3>
+            <p>Al finalizar, serán capaces de:</p>
+            <ul>
+                <li>Interactuar críticamente con datos y estadísticas circulantes.</li>
+                <li>Formular problemas investigables con rigor.</li>
+                <li>Elaborar diagnósticos sociales basados en evidencia empírica.</li>
+                <li><strong>Pensar socialmente con datos</strong> (no solo aplicar técnicas).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Condiciones Académicas</h3>
+            <ul>
+                <li><strong>Asistencia:</strong> 80% obligatoria en ambos espacios.</li>
+                <li><strong>Evaluación:</strong> Aprobación del 100% de instancias parciales o sus recuperatorios.</li>
+                <li><strong>Final:</strong> Entrega y aprobación del Informe Grupal Final que integra contenidos de ambas materias.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    Dra. Marianela S. Truccone — Lic. Mauro Surghi<br>
+    © 2026 | UNIVERSIDAD NACIONAL DE VILLA MARÍA
+</footer>
+
+</body>
+</html>
