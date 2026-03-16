@@ -10,7 +10,6 @@
             --accent-gold: #c5a059;
             --light-bg: #f4f7f6;
             --white: #ffffff;
-            --text-muted: #666;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,41 +34,37 @@
         .logo-container img {
             max-width: 120px;
             margin-bottom: 20px;
-            border-radius: 50%;
         }
-        h1 { color: var(--primary-green); font-size: 24px; margin-bottom: 5px; }
-        .subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 14px; }
+        h1 { color: var(--primary-green); font-size: 24px; margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 30px; }
         
-        .section-title {
+        .year-label {
             text-align: left;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
             color: var(--accent-gold);
-            margin: 20px 0 10px 5px;
             font-weight: bold;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            margin: 20px 0 10px 5px;
+            letter-spacing: 1px;
         }
 
         .button-stack { display: flex; flex-direction: column; gap: 12px; }
         .nav-button {
             display: block;
-            padding: 14px;
+            padding: 15px;
             background-color: var(--white);
             color: var(--primary-green);
             text-decoration: none;
-            border: 1.5px solid var(--primary-green);
+            border: 2px solid var(--primary-green);
             border-radius: 8px;
             font-weight: bold;
-            font-size: 14px;
             transition: all 0.3s ease;
             text-align: left;
         }
         .nav-button:hover { background-color: var(--primary-green); color: white; transform: translateX(5px); }
-        .nav-button.featured { background-color: var(--primary-green); color: white; border: none; }
+        .nav-button.featured { background-color: var(--primary-green); color: white; }
         
-        .footer-text { margin-top: 30px; font-size: 11px; color: #999; line-height: 1.5; }
+        .footer-text { margin-top: 30px; font-size: 12px; color: #999; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -78,13 +73,15 @@
         <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana">
     </div>
     <h1>Gestión y Resultados</h1>
-    <p class="subtitle">Cooperativa de Trabajo La Soberana</p>
+    <p>Panel de Control Cooperativa La Soberana</p>
 
     <div class="button-stack">
-        <div class="section-title">Gestión 2026</div>
-        <a href="Estado_Resultados_1er_trimestre_2026.html" class="nav-button featured">
+        <div class="year-label">Ciclo 2026</div>
+        
+        <a href="Soberana/Estado%20Resultados%20LS%201er%20trimestre%202026.html" class="nav-button featured">
             📈 Resultados 1er Trimestre 2026
         </a>
+        
         <a href="InformeLS%20visita%2004-02-26.html" class="nav-button">
             🤝 Informe de Reunión (04-02-2026)
         </a>
@@ -92,15 +89,15 @@
             📝 Informe de Reunión (13-01-2026)
         </a>
 
-        <div class="section-title">Histórico 2025</div>
+        <div class="year-label">Ciclo 2025</div>
         <a href="V2.Estado%20Resultados%20LS%204to%20trim%202025.html" class="nav-button">
             📊 Resultados 4to Trimestre 2025
         </a>
     </div>
 
     <div class="footer-text">
-        Lic. Marianela Truccone, Matrícula: M.P. RD Nº 54-00083-6<br>
-        Asesoría Técnica y de Datos
+        Lic. Marianela Truccone<br>
+        M.P. RD Nº 54-00083-6
     </div>
 </div>
 </body>
