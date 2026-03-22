@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Ejemplo de Investigación Social - Dra. Marianela Truccone</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; }
+        .survey-card { max-width: 900px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 3px solid #3498db; margin-bottom: 30px; padding-bottom: 20px; }
+        h1 { color: #2c3e50; margin-bottom: 5px; font-size: 1.8em; }
+        h2 { background: #34495e; color: white; padding: 10px 15px; border-radius: 4px; font-size: 1.1em; margin-top: 40px; text-transform: uppercase; }
+        .question { margin: 25px 0; padding-bottom: 15px; border-bottom: 1px solid #f1f1f1; }
+        .question-text { font-weight: bold; display: block; margin-bottom: 12px; color: #2c3e50; }
+        .options-vertical { list-style: none; padding: 0; }
+        .options-vertical li { margin-bottom: 10px; }
+        
+        /* Estilo Escala Likert 5 Puntos */
+        .likert-scale { display: flex; justify-content: space-between; margin-top: 15px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+        .likert-option { display: flex; flex-direction: column; align-items: center; text-align: center; width: 18%; font-size: 0.8em; color: #7f8c8d; }
+        .likert-option input { margin-bottom: 8px; transform: scale(1.2); }
+        .neutral-label { color: #3498db; font-weight: bold; }
+
+        .ref-tag { font-size: 0.7em; color: #3498db; font-weight: normal; margin-left: 8px; font-style: italic; }
+        .footer-note { margin-top: 50px; font-size: 0.85em; color: #95a5a6; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="survey-card">
+    <div class="header">
+        <h1>Cuestionario de Cultura Política y Desarrollo Local</h1>
+        <p>Instrumento de Recolección de Datos - Cuestionario Ejemplo de Investigación Social</p>
+    </div>
+
+    <p><em>Estimado participante: El presente cuestionario es anónimo y sus respuestas serán utilizadas estrictamente con fines de investigación académica.</em></p>
+
+    <h2>Sección 1: Perfil Sociodemográfico</h2>
+    
+    <div class="question">
+        <span class="question-text">1. ¿En qué barrio o localidad reside actualmente? <span class="ref-tag">[Var: Localidad]</span></span>
+        <input type="text" placeholder="Ej: Villa María" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+
+    <div class="question">
+        <span class="question-text">2. ¿Cuál es el máximo nivel educativo alcanzado? <span class="ref-tag">[Var: Nivel Educativo]</span></span>
+        <ul class="options-vertical">
+            <li><input type="radio" name="edu"> Primario Completo/Incompleto</li>
+            <li><input type="radio" name="edu"> Secundario Completo</li>
+            <li><input type="radio" name="edu"> Terciario / Universitario Completo</li>
+            <li><input type="radio" name="edu"> Posgrado (Especialización, Maestría, Doctorado)</li>
+        </ul>
+    </div>
+
+    <div class="question">
+        <span class="question-text">3. ¿Participa usted activamente en alguna de estas organizaciones? <span class="ref-tag">[Var: Participación Redes]</span></span>
+        <ul class="options-vertical">
+            <li><input type="checkbox"> Cooperativa / Mutual</li>
+            <li><input type="checkbox"> Club Deportivo / Centro Vecinal</li>
+            <li><input type="checkbox"> Partido Político / Agrupación Social</li>
+            <li><input type="checkbox"> No participa en ninguna</li>
+        </ul>
+    </div>
+
+    <h2>Sección 2: Participación y Gestión de lo Público</h2>
+
+    <div class="question">
+        <span class="question-text">4. ¿Ha utilizado formalmente algún mecanismo de participación municipal (presupuesto participativo, audiencias, banca del ciudadano) en los últimos 2 años? <span class="ref-tag">[Var: Uso Instrumentos]</span></span>
+        <input type="radio" name="uso"> Sí &nbsp;&nbsp;&nbsp; <input type="radio" name="uso"> No
+    </div>
+
+    <div class="question">
+        <span class="question-text">5. Si su respuesta fue "No", ¿cuál es el motivo principal? <span class="ref-tag">[Var: Razón No Uso]</span></span>
+        <ul class="options-vertical">
+            <li><input type="radio" name="razon"> Falta de información sobre cómo hacerlo</li>
+            <li><input type="radio" name="razon"> Desconfianza en que mi opinión sea tenida en cuenta</li>
+            <li><input type="radio" name="razon"> Falta de tiempo por motivos laborales/familiares</li>
+            <li><input type="radio" name="razon"> No creo que estos mecanismos sirvan para nada</li>
+        </ul>
+    </div>
+
+    <h2>Sección 3: Percepciones y Cultura Política</h2>
+
+    <div class="question">
+        <span class="question-text">6. ¿En qué medida está de acuerdo con la siguiente frase: "Siento que tengo los conocimientos necesarios para proponer proyectos útiles para mi barrio"? <span class="ref-tag">[Var: Autopercepción]</span></span>
+        <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lk1">Muy en desacuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk1">En desacuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk1"><span class="neutral-label">Neutral / No sabe</span></div>
+            <div class="likert-option"><input type="radio" name="lk1">De acuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk1">Muy de acuerdo</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <span class="question-text">7. "Los trámites y asambleas municipales son demasiado complejos y difíciles de entender": <span class="ref-tag">[Var: Complejidad]</span></span>
+        <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lk2">Totalmente en desacuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk2">En desacuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk2"><span class="neutral-label">Indiferente</span></div>
+            <div class="likert-option"><input type="radio" name="lk2">De acuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk2">Totalmente de acuerdo</div>
+        </div>
+    </div>
+
+    <h2>Sección 4: Información y Comunicación</h2>
+
+    <div class="question">
+        <span class="question-text">8. ¿Por qué medios se entera habitualmente de las decisiones o nuevos programas del municipio? <span class="ref-tag">[Var: Canales Info]</span></span>
+        <ul class="options-vertical">
+            <li><input type="checkbox"> Redes sociales (Instagram, Facebook, WhatsApp)</li>
+            <li><input type="checkbox"> Medios tradicionales (Diarios locales, Radio, TV)</li>
+            <li><input type="checkbox"> Comentarios de vecinos o colegas</li>
+            <li><input type="checkbox"> Páginas web oficiales del gobierno</li>
+        </ul>
+    </div>
+
+    <div class="question">
+        <span class="question-text">9. ¿Qué grado de confianza le genera la información técnica o política que recibe del gobierno municipal? <span class="ref-tag">[Var: Confianza Asesoría]</span></span>
+        <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lk3">Nula confianza</div>
+            <div class="likert-option"><input type="radio" name="lk3">Poca confianza</div>
+            <div class="likert-option"><input type="radio" name="lk3"><span class="neutral-label">Confianza moderada</span></div>
+            <div class="likert-option"><input type="radio" name="lk3">Alta confianza</div>
+            <div class="likert-option"><input type="radio" name="lk3">Total confianza</div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <p>Gracias por su participación. | Cátedra de Estadística Aplicada a las Ciencias Sociales y Taller de Metodología de la investigación en Ciencias Sociales II. Responsable: Dra. Marianela Truccone</p>
+        
+    </div>
+</div>
+
+</body>
+</html>
