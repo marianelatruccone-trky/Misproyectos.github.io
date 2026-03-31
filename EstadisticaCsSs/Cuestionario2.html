@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario de Cultura Política - Dra. Marianela Truccone</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; }
+        .survey-card { max-width: 900px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 3px solid #3498db; margin-bottom: 30px; padding-bottom: 20px; }
+        h1 { color: #2c3e50; margin-bottom: 5px; font-size: 1.8em; }
+        h2 { background: #34495e; color: white; padding: 10px 15px; border-radius: 4px; font-size: 1.1em; margin-top: 40px; text-transform: uppercase; }
+        .question { margin: 25px 0; padding-bottom: 15px; border-bottom: 1px solid #f1f1f1; }
+        .question-text { font-weight: bold; display: block; margin-bottom: 12px; color: #2c3e50; }
+        .options-vertical { list-style: none; padding: 0; }
+        .options-vertical li { margin-bottom: 10px; }
+        
+        .likert-scale { display: flex; justify-content: space-between; margin-top: 15px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+        .likert-option { display: flex; flex-direction: column; align-items: center; text-align: center; width: 18%; font-size: 0.8em; color: #7f8c8d; }
+        .likert-option input { margin-bottom: 8px; transform: scale(1.2); }
+        .neutral-label { color: #3498db; font-weight: bold; }
+
+        .ref-tag { font-size: 0.7em; color: #3498db; font-weight: normal; margin-left: 8px; font-style: italic; }
+        .footer-note { margin-top: 50px; font-size: 0.85em; color: #95a5a6; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="survey-card">
+    <div class="header">
+        <h1>Cuestionario de Cultura Política y Desarrollo Local</h1>
+        <p>Instrumento de Recolección de Datos - Cátedra de Estadística Aplicada</p>
+    </div>
+
+    <p><em>Estimado participante: Este instrumento es anónimo y sus respuestas se utilizarán exclusivamente con fines de investigación académica[cite: 364].</em></p>
+
+    <h2>Sección 1: Perfil Sociodemográfico</h2>
+    
+    <div class="question">
+        <span class="question-text">1. ¿En qué barrio o localidad reside actualmente? <span class="ref-tag">[Var: Localidad]</span></span>
+        <input type="text" placeholder="Ej: Villa María" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+
+    <div class="question">
+        <span class="question-text">2. ¿Cuál es el máximo nivel educativo alcanzado? <span class="ref-tag">[Var: Nivel Educativo]</span></span>
+        <ul class="options-vertical">
+            <li><input type="radio" name="edu"> Primario Completo/Incompleto</li>
+            <li><input type="radio" name="edu"> Secundario Completo</li>
+            <li><input type="radio" name="edu"> Terciario / Universitario Completo</li>
+            <li><input type="radio" name="edu"> Posgrado</li>
+        </ul>
+    </div>
+
+    <h2>Sección 2: Cultura Política y Compromiso</h2>
+
+    <div class="question">
+        <span class="question-text">3. ¿Qué grado de interés tiene usted en los asuntos públicos y políticos de su ciudad? <span class="ref-tag">[Var: Interés en Asuntos Públicos]</span></span>
+        <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="int1">Nada de interés</div>
+            <div class="likert-option"><input type="radio" name="int1">Poco interés</div>
+            <div class="likert-option"><input type="radio" name="int1"><span class="neutral-label">Algo de interés</span></div>
+            <div class="likert-option"><input type="radio" name="int1">Interesado</div>
+            <div class="likert-option"><input type="radio" name="int1">Muy interesado</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <span class="question-text">4. ¿Participa activamente en alguna de estas organizaciones? <span class="ref-tag">[Var: Participación Redes]</span></span>
+        <ul class="options-vertical">
+            <li><input type="checkbox"> Cooperativa / Mutual [cite: 434]</li>
+            <li><input type="checkbox"> Club Deportivo / Centro Vecinal</li>
+            <li><input type="checkbox"> Partido Político / Agrupación Social</li>
+            <li><input type="checkbox"> No participa en ninguna</li>
+        </ul>
+    </div>
+
+    <h2>Sección 3: Conocimiento y Autopercepción</h2>
+
+    <div class="question">
+        <span class="question-text">5. "Siento que tengo los conocimientos necesarios para proponer proyectos útiles para mi barrio": <span class="ref-tag">[Var: Autopercepción]</span></span>
+        <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lk1">Muy en desacuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk1">En desacuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk1"><span class="neutral-label">Ni de acuerdo ni en desacuerdo</span></div>
+            <div class="likert-option"><input type="radio" name="lk1">De acuerdo</div>
+            <div class="likert-option"><input type="radio" name="lk1">Muy de acuerdo</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <span class="question-text">6. ¿Qué tan interesado estaría en recibir capacitación sobre gestión pública y participación ciudadana? <span class="ref-tag">[Var: Interés en Formación]</span></span>
+        <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lk_for">Nada interesado</div>
+            <div class="likert-option"><input type="radio" name="lk_for">Poco interesado</div>
+            <div class="likert-option"><input type="radio" name="lk_for"><span class="neutral-label">Moderadamente</span></div>
+            <div class="likert-option"><input type="radio" name="lk_for">Muy interesado</div>
+            <div class="likert-option"><input type="radio" name="lk_for">Totalmente interesado</div>
+        </div>
+    </div>
+
+    <h2>Sección 4: Información y Confianza</h2>
+
+    <div class="question">
+        <span class="question-text">7. ¿Qué grado de confianza le genera la información técnica que recibe del gobierno municipal? <span class="ref-tag">[Var: Confianza en Asesoría]</span></span>
+        <div class="likert-scale">
+            <div class="likert-option"><input type="radio" name="lk_con">Nula confianza</div>
+            <div class="likert-option"><input type="radio" name="lk_con">Poca confianza</div>
+            <div class="likert-option"><input type="radio" name="lk_con"><span class="neutral-label">Confianza moderada</span></div>
+            <div class="likert-option"><input type="radio" name="lk_con">Alta confianza</div>
+            <div class="likert-option"><input type="radio" name="lk_con">Total confianza</div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <p>Responsable: Dra. Marianela Truccone | Cátedra de Estadística Aplicada a las Ciencias Sociales.</p>
+    </div>
+</div>
+
+</body>
+</html>
