@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Reunión Abril - La Soberana</title>
+    <style>
+        :root {
+            --primary-green: #2f5d50;
+            --accent-green: #4a7c6d;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #333;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 20px;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .report-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--primary-green);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: auto;
+        }
+
+        .header-info {
+            text-align: right;
+        }
+
+        .header-info h1 {
+            margin: 0;
+            color: var(--primary-green);
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .meta-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: #eef2f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-green);
+        }
+
+        .meta-item b {
+            color: var(--primary-green);
+            display: block;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: var(--primary-green);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            font-size: 20px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .objective-box {
+            background-color: #f9fdfc;
+            padding: 20px;
+            border: 1px solid #d1e2dd;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .status-update {
+            background-color: #eef2f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px dashed var(--primary-green);
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        @media (max-width: 600px) {
+            .report-container { padding: 20px; }
+            header { flex-direction: column; text-align: center; }
+            .header-info { text-align: center; margin-top: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="report-container">
+    <header>
+        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/304860792_488549076582091_1628220225548910886_n.jpg" alt="La Soberana" class="logo-placeholder">
+        <div class="header-info">
+            <h1>Informe de Reunión</h1>
+            <p>Acompañamiento Técnico Profesional</p>
+        </div>
+    </header>
+
+    <div class="meta-data">
+        <div class="meta-item"><b>Fecha:</b> 08/04/2026</div>
+        <div class="meta-item"><b>Horario:</b> 13:30 a 18:00 hs</div>
+        <div class="meta-item"><b>Lugar:</b> Granja Siquem</div>
+        <div class="meta-item"><b>Entidad:</b> Coop. de Trabajo La Soberana</div>
+    </div>
+
+    <section>
+        <h2>Objetivo de la reunión</h2>
+        <div class="objective-box">
+            <p>Participar de la reunión del consejo de la cooperativa para exponer el estado de resultados. Revisar con Natalia y Valentín los resultados y planillas de costos de chacinados, además de auditar los gastos correspondientes al mes de marzo 2026.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Actividades desarrolladas</h2>
+        <ul>
+            <li><strong>Moción de Consejo:</strong> Exposición de los avances y actividades del acompañamiento técnico ante las autoridades de la cooperativa.</li>
+            <li><strong>Revisión de Marzo:</strong> Control exhaustivo de los resultados económicos del mes de marzo 2026, verificando cada ítem y su respectiva imputación.</li>
+            <li><strong>Planilla de Costos:</strong> Trabajo técnico con Natalia y Valentín para el ajuste y validación de la planilla de costos de chacinados.</li>
+            <li><strong>Consultas de Sector:</strong> Entrevista con el responsable de chacinados para resolver dudas adicionales sobre la estructura de costos de producción.</li>
+            <li><strong>Formalización:</strong> Envío de las planillas de resultados finales del mes de marzo.</li>
+        </ul>
+    </section>
+
+    <section>
+        <div class="status-update">
+            <strong>Continuidad:</strong> Se realizó la revisión del proceso de acompañamiento técnico para dar inicio formal al segundo trimestre de 2026.
+        </div>
+    </section>
+
+    <footer>
+        <div class="signature">
+            Lic. Marianela Truccone<br>
+            M.P. RD Nº 54-00083-6
+        </div>
+        <p>© 2026 - Gestión Cooperativa La Soberana</p>
+    </footer>
+</div>
+
+</body>
+</html>
