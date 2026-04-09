@@ -3,102 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión La Soberana - Panel de Control</title>
+    <title>Gestión y Resultados - La Soberana</title>
     <style>
         :root {
             --primary-green: #2f5d50;
-            --accent-gold: #c5a059;
+            --accent-green: #4a7c6d;
             --light-bg: #f4f7f6;
             --white: #ffffff;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .main-card {
-            background: var(--white);
-            max-width: 500px;
-            width: 100%;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            border-top: 8px solid var(--primary-green);
-        }
-        .logo-container img {
-            max-width: 120px;
-            margin-bottom: 20px;
-        }
-        h1 { color: var(--primary-green); font-size: 24px; margin-bottom: 10px; }
-        p { color: #666; margin-bottom: 30px; }
-        
-        .year-label {
-            text-align: left;
-            font-size: 11px;
-            text-transform: uppercase;
-            color: var(--accent-gold);
-            font-weight: bold;
-            margin: 20px 0 10px 5px;
-            letter-spacing: 1px;
+            --text: #333;
         }
 
-        .button-stack { display: flex; flex-direction: column; gap: 12px; }
-        .nav-button {
-            display: block;
-            padding: 15px;
-            background-color: var(--white);
-            color: var(--primary-green);
-            text-decoration: none;
-            border: 2px solid var(--primary-green);
-            border-radius: 8px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-align: left;
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 20px;
+            color: var(--text);
         }
-        .nav-button:hover { background-color: var(--primary-green); color: white; transform: translateX(5px); }
-        .nav-button.featured { background-color: var(--primary-green); color: white; }
-        
-        .footer-text { margin-top: 30px; font-size: 12px; color: #999; line-height: 1.6; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary-green);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h1 { color: var(--primary-green); margin: 0; font-size: 24px; }
+        p.subtitle { color: #666; margin: 5px 0 0; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            color: var(--primary-green);
+            font-size: 20px;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section-title i { margin-right: 10px; }
+
+        .grid-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f9fdfc;
+            border: 1px solid #d1e2dd;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            background: var(--primary-green);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .card-link .icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .card-link .details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-link .title { font-weight: bold; font-size: 15px; }
+        .card-link .date { font-size: 12px; opacity: 0.8; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .grid-links { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-<div class="main-card">
-    <div class="logo-container">
-        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana">
-    </div>
-    <h1>Gestión y Resultados</h1>
-    <p>Panel de Control Cooperativa La Soberana</p>
 
-    <div class="button-stack">
-        <div class="year-label">Ciclo 2026</div>
-        
-        <a href="Estado%20Resultados%20LS%201er%20trimestre%202026.html" class="nav-button featured">
-        📈 Resultados 1er Trimestre 2026
-        </a>
-        
-        <a href="InformeLS%20visita%2004-02-26.html" class="nav-button">
-            🤝 Informe de Reunión (04-02-2026)
-        </a>
-        <a href="InformeLS3%20visita%2013-01-26.html" class="nav-button">
-            📝 Informe de Reunión (13-01-2026)
-        </a>
+<div class="container">
+    <header>
+        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana" class="logo">
+        <h1>Repositorio de Gestión Profesional</h1>
+        <p class="subtitle">Cooperativa de Trabajo La Soberana</p>
+    </header>
 
-        <div class="year-label">Ciclo 2025</div>
-        <a href="V2.Estado%20Resultados%20LS%204to%20trim%202025.html" class="nav-button">
-            📊 Resultados 4to Trimestre 2025
+    <div class="section-title">📊 Resultados Económicos y Dashboards</div>
+    <div class="grid-links">
+        <a href="Estado%20Resultados%20LS%201er%20trimestre%202026.html" class="card-link">
+            <div class="icon">📈</div>
+            <div class="details">
+                <span class="title">Estado de Resultados 2026</span>
+                <span class="date">I Trimestre 2026</span>
+            </div>
+        </a>
+        <a href="V2.Estado%20Resultados%20LS%204to%20trim%202025.html" class="card-link">
+            <div class="icon">📉</div>
+            <div class="details">
+                <span class="title">Estado de Resultados 2025</span>
+                <span class="date">IV Trimestre 2025</span>
+            </div>
         </a>
     </div>
 
-    <div class="footer-text">
-        Lic. Marianela Truccone<br>
-        M.P. RD Nº 54-00083-6
+    <div class="section-title">📝 Informes de Visitas y Reuniones</div>
+    <div class="grid-links">
+        <a href="InformeLS%20visita%2008-04-26.html" class="card-link">
+            <div class="icon">📍</div>
+            <div class="details">
+                <span class="title">Informe Visita Presencial</span>
+                <span class="date">08 de Abril, 2026</span>
+            </div>
+        </a>
+        <a href="InformeLS%20visita%2018-03-26.html" class="card-link">
+            <div class="icon">📍</div>
+            <div class="details">
+                <span class="title">Informe Visita Presencial</span>
+                <span class="date">18 de Marzo, 2026</span>
+            </div>
+        </a>
+        <a href="InformeLS%20visita%2004-02-26.html" class="card-link">
+            <div class="icon">📍</div>
+            <div class="details">
+                <span class="title">Informe Visita Presencial</span>
+                <span class="date">04 de Febrero, 2026</span>
+            </div>
+        </a>
+        <a href="InformeLS3%20visita%2013-01-26.html" class="card-link">
+            <div class="icon">📍</div>
+            <div class="details">
+                <span class="title">Informe Visita Presencial</span>
+                <span class="date">13 de Enero, 2026</span>
+            </div>
+        </a>
     </div>
+
+    <footer>
+        <p>Elaborado por: <strong>Lic. Marianela Truccone / 2026</strong></p>
+        <p> M.P. RD Nº 54-00083-6</p>
+    </footer>
 </div>
+
 </body>
 </html>
