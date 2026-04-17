@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciclo de Cine y Economía - UNVM</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; border-top: 5px solid #2c3e50; }
+        h1 { color: #2c3e50; font-size: 24px; text-align: center; margin-bottom: 5px; }
+        h2 { color: #e67e22; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 30px; }
+        h3 { color: #2c3e50; margin-top: 20px; display: flex; align-items: center; }
+        .highlight { background-color: #fdf2e9; padding: 15px; border-left: 4px solid #e67e22; font-style: italic; margin: 15px 0; }
+        .date-box { background: #2c3e50; color: white; padding: 10px; border-radius: 8px; font-size: 0.9em; margin-bottom: 10px; }
+        .section-box { background: #f8f9fa; border-radius: 10px; padding: 15px; margin-top: 15px; border: 1px solid #e9ecef; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .footer { text-align: center; font-size: 0.8em; color: #7f8c8d; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 10px; }
+        .badge { display: inline-block; background: #e8f4fd; color: #2980b9; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>🎬 Ciclo de Cine y Economía</h1>
+        <p style="text-align:center; font-weight:bold; color: #7f8c8d;">Argentina en los años 90</p>
+        
+        <div class="highlight">
+            "Del relato del éxito económico a la experiencia de la precariedad".
+        </div>
+
+        <h3>📅 Cronograma de Encuentros</h3>
+        <div class="date-box"><strong>30 de Abril:</strong> Nueve Reinas (F. Bielinsky)</div>
+        <div class="date-box"><strong>21 de Mayo:</strong> Pizza, birra, faso (Caetano/Stagnaro)</div>
+        <div class="date-box"><strong>18 de Junio:</strong> Mundo Grúa (P. Trapero)</div>
+        <div class="date-box"><strong>23 de Julio:</strong> Los guantes mágicos (M. Rejtman)</div>
+    </div>
+
+    <div class="card">
+        <span class="badge">ENCUENTRO 1 · 30-04</span>
+        <h2>Nueve Reinas (2000)</h2>
+        <p><strong>Contexto:</strong> Filmada hacia el final del modelo de convertibilidad, en un contexto de aparente estabilidad pero creciente desconfianza hacia las instituciones financieras, la película se inscribe en un momento clave de transformación social. En este marco, el realismo en el que se inscribe el film no responde únicamente a una decisión estética, sino también a las condiciones materiales de producción: con recursos limitados, escenas rodadas en espacios públicos, incorporando la dinámica cotidiana de la ciudad y generando una atmósfera cercana a lo documental. Estas elecciones dialogan con las características del llamado Nuevo Cine Argentino, que desde mediados de los años noventa se propuso construir una mirada crítica sobre la realidad social, privilegiando relatos fragmentados, abiertos al azar y centrados en la vida cotidiana. Se trata de un cine que abandona las narrativas tradicionales, diluye la figura del héroe y evita posiciones morales explícitas, para dar lugar a una representación más ambigua, inmediata y situada de una sociedad atravesada por la incertidumbre.</p>
+
+        <div class="section-box">
+            <h3>🔍 1. Claves para revisar la película</h3>
+            <p><small><i>Fijar la mirada en estos ejes durante el visionado:</i></small></p>
+            <ul>
+                <li><strong>El dinero como ficción:</strong> Observar cómo se determina el valor de las cosas y el rol del sistema financiero (bancos y empresas) como figuras de poder o engaño.</li>
+                <li><strong>La estafa como sistema:</strong> La lógica de la "viveza" no es un rasgo individual, sino la regla que rige la economía y las relaciones sociales en el film.</li>
+                <li><strong>La mirada de Bielinsky:</strong> El uso de un cine industrial y comercial para lanzar una crítica política profunda sobre la descomposición del lazo social.</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h3>💬 2. Guía para el debate (Preguntas disparadoras)</h3>
+            <p><small><i>Para reflexionar colectivamente al finalizar:</i></small></p>
+            <ul>
+                <li><strong>Crisis bancaria:</strong> ¿Cómo se construye simbólicamente en la película?</li>
+                <li><strong>Sujetos de la crisis:</strong> ¿Es la marginalidad de los personajes una elección personal o una imposición del modelo económico del contexto de la película?</li>
+                <li><strong>Actualidad:</strong> ¿Qué paralelismos encuentran entre la economía de la especulación del film y los desafíos económicos actuales?</li>
+                <li><strong>Instituciones:</strong> ¿Cómo aparecen representados el Estado y los bancos en comparación con la "ética" de los estafadores de calle?</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Organiza: Escuela de Ciencias Económicas y Carrera Lic. en Economía -IAPCS / UNVM</p>
+        <p>Coordinan: Dra. Marianela Truccone - Dr. Gonzalo Carrión</p>
+        <p>Sede: Consejo Profesional de Ciencias Económicas, Villa María</p>
+    </div>
+
+</body>
+</html>
