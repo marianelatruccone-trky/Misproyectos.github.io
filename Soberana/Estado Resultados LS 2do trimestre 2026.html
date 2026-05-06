@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 2026 - II Trimestre - La Soberana</title>
+    <style>
+        :root {
+            --primary-green: #2f5d50;
+            --danger: #d32f2f;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #333;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); padding: 10px; color: var(--text); line-height: 1.5; }
+        .container { max-width: 1150px; margin: 0 auto; background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        header { display: flex; align-items: center; gap: 20px; border-bottom: 3px solid var(--primary-green); margin-bottom: 25px; padding-bottom: 15px; flex-wrap: wrap; }
+        .logo-header { width: 65px; height: auto; }
+        .header-text h1 { margin: 0; color: var(--primary-green); font-size: 22px; }
+
+        .selector-section { background: #eef2f1; padding: 15px; border-radius: 8px; margin-bottom: 25px; }
+        select { padding: 8px; border-radius: 5px; border: 1px solid var(--primary-green); font-size: 15px; cursor: pointer; width: 100%; max-width: 350px; }
+
+        .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #fff; border: 1px solid #ddd; border-left: 5px solid var(--primary-green); padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-card h3 { font-size: 12px; margin: 0; color: #666; text-transform: uppercase; }
+        .stat-card p { font-size: 20px; font-weight: bold; margin: 8px 0 0; }
+        
+        .negative { color: var(--danger) !important; font-weight: bold; }
+        .positive { color: var(--primary-green) !important; font-weight: bold; }
+
+        .table-container { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
+        th { background: var(--primary-green); color: white; padding: 12px; text-align: center; }
+        td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; }
+        td:first-child { text-align: left; font-weight: bold; }
+
+        .interpretation-box { margin-top: 25px; padding: 20px; background: #fdf2f2; border-radius: 8px; border-left: 5px solid var(--danger); }
+        .interpretation-box.success { background: #f2fdf5; border-left: 5px solid var(--primary-green); }
+        .interpretation-box h3 { margin-top: 0; font-size: 18px; color: var(--danger); }
+        .success h3 { color: var(--primary-green); }
+        .nota-profesional { background: #eef2f1; border-left: 5px solid var(--primary-green); margin-top: 15px; padding: 10px; border-radius: 4px; font-style: italic; }
+
+        footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666; text-align: center; }
+
+        @media (max-width: 600px) {
+            .header-text h1 { font-size: 18px; }
+            .grid-stats { grid-template-columns: 1fr 1fr; }
+            table { font-size: 11px; min-width: auto; }
+            td, th { padding: 8px 4px; }
+            .container { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana" class="logo-header">
+        <div class="header-text">
+            <h1>Estado de Resultados 2026 - II Trimestre</h1>
+            <p>Cooperativa de Trabajo La Soberana</p>
+        </div>
+    </header>
+
+    <div class="selector-section">
+        <label><strong>Mes de Análisis:</strong></label><br><br>
+        <select id="periodo" onchange="actualizar()">
+            <option value="abr" selected>Abril 2026</option>
+            <option value="may">Mayo 2026 (Sin datos)</option>
+            <option value="jun">Junio 2026 (Sin datos)</option>
+        </select>
+    </div>
+
+    <div class="grid-stats">
+        <div class="stat-card"><h3>Ingresos</h3><p id="ing" class="positive"></p></div>
+        <div class="stat-card"><h3>Egresos</h3><p id="egr" class="negative"></p></div>
+        <div class="stat-card"><h3>Resultado Neto</h3><p id="res"></p></div>
+        <div class="stat-card"><h3>Rentabilidad %</h3><p id="rent"></p></div>
+    </div>
+
+    <div class="analysis-box">
+        <h2 id="titulo" style="font-size: 18px; color: var(--primary-green); margin-bottom: 15px; text-align: center;"></h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rubro de Egreso</th>
+                        <th>Monto</th>
+                        <th>% s/ Egresos</th>
+                        <th>% s/ Ingresos</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla"></tbody>
+            </table>
+        </div>
+
+        <div id="boxInterpretacion" class="interpretation-box">
+            <h3 id="interpretacionTitulo">Análisis de Gestión</h3>
+            <div id="interpretacionCuerpo"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Elaborado por: <strong>Lic. Marianela Truccone</strong></p>
+        <p>Datos proporcionados por Cooperativa La Soberana</p>
+    </footer>
+</div>
+
+<script>
+    const db = {
+        abr: {
+            t: "Desglose Abril 2026",
+            i: "$21.200.000", e: "$20.642.077", r: "$557.923", rent: "2.63%",
+            txt: `
+                <p>Abril 2026 registra un <b>superávit de $557.923</b>. Se destaca que el 38.6% de los ingresos totales provienen de <b>Ingresos No Operativos ($8.200.000)</b>.</p>
+                <p>La estructura de costos está fuertemente marcada por los Retornos y Sueldos, seguidos por gastos de mantenimiento y servicios esenciales.</p>
+                <div class="nota-profesional">
+                    <b>Nota de Análisis:</b> La rentabilidad se mantiene en terreno positivo (2.63%), logrando cubrir la totalidad de los costos directos e indirectos del periodo.
+                </div>
+            `,
+            filas: [
+                ["Retornos y Sueldos", "$7.800.000", "37.79%", "36.79%"],
+                ["Compra de insumos Tambo", "$950.000", "4.60%", "4.48%"],
+                ["Compra de insumos Pollos", "$1.907.700", "9.24%", "9.00%"],
+                ["Compra de insumos Ponedoras", "$287.000", "1.39%", "1.35%"],
+                ["Compra de insumos Cerdos", "$2.248.807", "10.89%", "10.61%"],
+                ["Compra de insumos Quesos", "$80.000", "0.39%", "0.38%"],
+                ["Combustibles y lubricantes", "$425.000", "2.06%", "2.00%"],               
+                ["Viáticos/Gastos Laborales", "$40.000", "0.19%", "0.19%"],
+                ["Energía eléctrica", "$240.000", "1.16%", "1.13%"],
+                ["Mantenimiento General", "$2.500.000", "12.11%", "11.79%"],
+                ["Mantenimiento vehículos", "$2.467.000", "11.95%", "11.64%"],
+                ["Gastos de embalaje y envíos", "$800.000", "3.88%", "3.77%"],
+                ["Gtos. Papelería y Ut. Oficina", "$80.000", "0.39%", "0.38%"],
+                ["Impuestos pagados", "$300.000", "1.45%", "1.42%"],
+                ["Gastos bancarios", "$516.570", "2.50%", "2.44%"]
+            ]
+        },
+        may: { t: "Mayo 2026", i: "-", e: "-", r: "-", rent: "-", txt: "<p>Pendiente de carga de datos.</p>", filas: [] },
+        jun: { t: "Junio 2026", i: "-", e: "-", r: "-", rent: "-", txt: "<p>Pendiente de carga de datos.</p>", filas: [] }
+    };
+
+    function actualizar() {
+        const v = document.getElementById('periodo').value;
+        const data = db[v];
+        if (!data || data.i === "-") return;
+
+        const box = document.getElementById('boxInterpretacion');
+
+        document.getElementById('ing').innerText = data.i;
+        document.getElementById('egr').innerText = data.e;
+        document.getElementById('res').innerText = data.r;
+        document.getElementById('rent').innerText = data.rent;
+        
+        const esNegativo = data.r.includes('-');
+        document.getElementById('res').className = esNegativo ? "negative" : "positive";
+        document.getElementById('rent').className = esNegativo ? "negative" : "positive";
+        
+        if(esNegativo) {
+            box.classList.remove('success');
+            document.getElementById('interpretacionTitulo').innerText = "Análisis de Gestión - Alerta";
+        } else {
+            box.classList.add('success');
+            document.getElementById('interpretacionTitulo').innerText = "Análisis de Gestión - Superávit";
+        }
+
+        document.getElementById('titulo').innerText = data.t;
+        document.getElementById('interpretacionCuerpo').innerHTML = data.txt;
+
+        const tbody = document.getElementById('tabla');
+        tbody.innerHTML = data.filas.map(f => `
+            <tr>
+                <td>${f[0]}</td>
+                <td><strong>${f[1]}</strong></td>
+                <td>${f[2]}</td>
+                <td class="${esNegativo ? 'negative' : 'positive'}">${f[3]}</td>
+            </tr>
+        `).join('');
+    }
+
+    window.onload = actualizar;
+</script>
+</body>
+</html>
