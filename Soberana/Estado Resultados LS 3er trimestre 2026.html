@@ -69,8 +69,8 @@
         <label><strong>Mes de Análisis:</strong></label><br><br>
         <select id="periodo" onchange="actualizar()">
             <option value="jul">Julio 2026</option>
-            <option value="ago" selected>Agosto 2026</option>
-            <option value="sep">Septiembre 2026</option>
+            <option value="ago">Agosto 2026</option>
+            <option value="sep" selected>Septiembre 2026</option>
         </select>
     </div>
 
@@ -118,7 +118,7 @@
                 <p>Julio 2026 retoma la senda del <b>superávit con $1.105.410</b>, logrando una rentabilidad mensual positiva del <b>5.27%</b>.</p>
                 <p>La estructura de egresos está marcada por los Retornos y Sueldos ($9.000.000), representando el 45.26% de los gastos totales, seguidos por Gastos de infraestructura y la compra de insumos productivos.</p>
                 <div class="nota-profesional">
-                    <b>Nota de Análisis:</b> El resultado operativo positivo debe tomarse con precaución debido a ajustes en el registro exahustivo de los gastos que la cooperativa se encuentra realizando.
+                    <b>Nota de Análisis:</b> El resultado operativo positivo debe tomarse con precaución debido a ajustes en el registro exhaustivo de los gastos que la cooperativa se encuentra realizando.
                 </div>
             `,
             filas: [
@@ -165,25 +165,39 @@
         },
         sep: {
             t: "Desglose Septiembre 2026",
-            i: "$0", e: "$0", r: "$0", rent: "0.00%",
-            txt: `<p>El periodo de Septiembre 2026 se encuentra en proceso de carga y conciliación.</p>`,
-            filas: []
+            i: "$20.882.975", e: "$22.333.214", r: "-$1.450.239", rent: "-6.94%",
+            txt: `
+                <p>Septiembre 2026 cierra con un <b>déficit neto de -$1.450.239</b>, situando la rentabilidad mensual en un <b>-6.94%</b>.</p>
+                <p>La estructura de costos está fuertemente impactada por los <b>Sueldos y Jornales/RETORNOS ($8.700.000)</b>, que absorbieron el 38.96% de los egresos y el 41.66% de los ingresos, sumado a la <b>Compra de insumos para Pollos ($6.171.789)</b> que representó el 27.64% del total de gastos.</p>
+                <div class="nota-profesional">
+                    <b>Nota de Análisis:</b> El descalce financiero del período obedece principalmente a la combinación de la carga de Retornos y el volumen de insumos acumulados en la unidad avícola, junto con el peso de los mantenimientos vehiculares ($1.010.470) e infraestructura ($942.700). Se requiere un monitoreo estrecho de las compras frente a la rotación de ventas para estabilizar el margen de rentabilidad.
+                </div>
+            `,
+            filas: [
+                ["Retornos y Sueldos", "$8.700.000", "38.96%", "41.66%"],
+                ["Compra de insumos Tambo", "$1.111.000", "4.97%", "5.32%"],
+                ["Compra de insumos Pollos", "$6.171.789", "27.64%", "29.55%"],
+                ["Compra de insumos Ponedoras", "$115.000", "0.51%", "0.55%"],
+                ["Compra de insumos Cerdos", "$1.268.880", "5.68%", "6.08%"],
+                ["Compra de insumos Quesos", "$613.891", "2.75%", "2.94%"],
+                ["Compra de insumos Salames", "$475.000", "2.13%", "2.27%"],
+                ["Combustibles y lubricantes", "$182.000", "0.81%", "0.87%"],
+                ["Viáticos/Gastos Laborales", "$243.000", "1.09%", "1.16%"],
+                ["Honorarios profesionales", "$400.000", "1.79%", "1.92%"],
+                ["Gastos de Mantenimiento", "$942.700", "4.22%", "4.51%"],
+                ["Mantenimiento vehículos", "$1.010.470", "4.52%", "4.84%"],
+                ["Gastos de embalaje y envíos", "$260.000", "1.16%", "1.25%"],
+                ["Publicidad", "$310.000", "1.39%", "1.48%"],
+                ["Impuestos pagados", "$279.484", "1.25%", "1.34%"],
+                ["Gastos bancarios", "$250.000", "1.12%", "1.20%"]
+            ]
         }
     };
 
     function actualizar() {
         const v = document.getElementById('periodo').value;
         const data = db[v];
-        if (!data || (data.i === "$0" && v === "sep")) {
-            document.getElementById('ing').innerText = "-";
-            document.getElementById('egr').innerText = "-";
-            document.getElementById('res').innerText = "-";
-            document.getElementById('rent').innerText = "-";
-            document.getElementById('titulo').innerText = data.t;
-            document.getElementById('interpretacionCuerpo').innerHTML = data.txt;
-            document.getElementById('tabla').innerHTML = "<tr><td colspan='4'>Sin datos cargados para este periodo</td></tr>";
-            return;
-        }
+        if (!data) return;
 
         const box = document.getElementById('boxInterpretacion');
 
