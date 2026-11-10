@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Económico - Balanza de Pagos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .card-active {
+            border-color: #2563eb !important;
+            background-color: #eff6ff !important;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
+            transform: scale(1.02);
+        }
+        .row-active {
+            background-color: #fef9c3 !important;
+            transition: background-color 0.3s ease;
+        }
+        .row-filled {
+            background-color: #f8fafc;
+        }
+        /* Estilo marcador fluorescente para saldos principales */
+        .highlight-marker {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            box-shadow: 0 1px 3px rgba(234, 179, 8, 0.3);
+            display: inline-block;
+        }
+        /* Animación de entrada suave para saldos */
+        .fade-pop {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header claro -->
+    <header class="bg-white border-b border-slate-200 py-4 px-6 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">Análisis Económico</span>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900 mt-1">Estructuración Paso a Paso: Balanza de Pagos</h1>
+                <p class="text-xs text-slate-500">Ejercicio Aplicado — Simulación Interactiva de Cuentas Internacionales</p>
+            </div>
+            
+            <!-- Controles de animación -->
+            <div class="flex items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200 shadow-inner">
+                <button onclick="prevStep()" id="btnPrev" class="px-3.5 py-2 bg-white hover:bg-slate-100 border border-slate-300 disabled:opacity-40 rounded-lg text-xs font-semibold text-slate-700 transition flex items-center gap-1 shadow-sm cursor-pointer disabled:cursor-not-allowed">
+                    ◄ Anterior
+                </button>
+                <button onclick="togglePlay()" id="btnPlay" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-xs font-semibold text-white transition shadow-sm flex items-center gap-2 cursor-pointer">
+                    <span id="playIcon">▶</span> <span id="playText">Reproducir</span>
+                </button>
+                <button onclick="nextStep()" id="btnNext" class="px-3.5 py-2 bg-white hover:bg-slate-100 border border-slate-300 disabled:opacity-40 rounded-lg text-xs font-semibold text-slate-700 transition flex items-center gap-1 shadow-sm cursor-pointer disabled:cursor-not-allowed">
+                    Siguiente ►
+                </button>
+                <div class="h-5 w-px bg-slate-300 mx-1"></div>
+                <select id="speedSelect" onchange="changeSpeed()" class="bg-white border border-slate-300 text-xs text-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-blue-500 cursor-pointer shadow-sm">
+                    <option value="5000">Lenta (5s)</option>
+                    <option value="3500" selected>Normal (3.5s)</option>
+                    <option value="2000">Rápida (2s)</option>
+                </select>
+                <button onclick="resetSimulation()" class="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 rounded-lg transition" title="Reiniciar ejercicio">
+                    🔄
+                </button>
+            </div>
+        </div>
+        
+        <!-- Barra de progreso -->
+        <div class="max-w-7xl mx-auto mt-3">
+            <div class="flex justify-between text-xs text-slate-600 mb-1">
+                <span id="stepIndicator" class="font-semibold text-blue-700">Paso 0 de 11: Inicio del ejercicio</span>
+                <span id="progressPercent" class="font-medium">0% completado</span>
+            </div>
+            <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div id="progressBar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Panel Principal -->
+    <main class="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 w-full flex-grow">
+        
+        <!-- Columna Izquierda: Datos del Ejercicio -->
+        <div class="lg:col-span-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                    📄 Datos de la Consigna
+                </h2>
+                <span class="text-xs font-mono bg-white border border-slate-200 px-2 py-0.5 rounded text-slate-600">Valores en USD</span>
+            </div>
+
+            <!-- Contenedor con Scroll Automático -->
+            <div id="cardsContainer" class="flex flex-col gap-3 max-h-[560px] overflow-y-auto pr-2 custom-scroll scroll-smooth">
+                <!-- Inyectado dinámicamente con JS -->
+            </div>
+
+            <!-- Explicación pedagógica del paso -->
+            <div class="bg-white border border-blue-200 rounded-xl p-4 shadow-sm mt-auto">
+                <h3 id="pedagogicalTitle" class="text-xs font-bold text-blue-900 uppercase tracking-wide">Inicio del Ejercicio</h3>
+                <p id="pedagogicalText" class="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Avanza paso a paso para analizar la clasificación e imputación contable de cada transacción en la Balanza de Pagos.
+                </p>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Tabla Vacía que se va Llenando -->
+        <div class="lg:col-span-7 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">
+                    📊 Estructura de la Balanza de Pagos
+                </h2>
+                <span id="totalBadge" class="text-xs font-mono font-bold bg-slate-200 px-2.5 py-1 rounded text-slate-700">
+                    Cargados: 0 / 11 Datos
+                </span>
+            </div>
+
+            <!-- Contenedor de la Tabla con Scroll Automático -->
+            <div id="tableContainer" class="bg-white border border-slate-300 rounded-xl overflow-hidden shadow-sm max-h-[620px] overflow-y-auto custom-scroll scroll-smooth relative">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead class="bg-slate-800 text-white uppercase tracking-wider sticky top-0 z-10">
+                        <tr>
+                            <th class="p-2.5 font-semibold">Cuenta / Rubro</th>
+                            <th class="p-2.5 text-right font-semibold w-24">Ingresos</th>
+                            <th class="p-2.5 text-right font-semibold w-24">Egresos</th>
+                            <th class="p-2.5 text-right font-semibold w-24">Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bpTableBody" class="divide-y divide-slate-200 font-mono">
+                        <!-- Inyectado con JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Institucional -->
+    <footer class="border-t border-slate-200 py-3 px-6 text-center text-xs text-slate-400 mt-auto">
+        <p>UNVM - CRES San Francisco | Docentes: Marianela Truccone - Mercedes Luna Broggi - Evelina Volta</p>
+    </footer>
+
+    <script>
+        const transactions = [
+            {
+                id: 1,
+                title: "Compra de activos extranjeros por residentes del país",
+                rawText: "$1.500 EGRESO FINANCIERO",
+                account: "Cuenta Financiera → Inversión en Cartera",
+                amount: 1500,
+                type: "egreso",
+                targetRow: "row-cart-compra",
+                explanation: "Un residente compra activos afuera. Sale moneda extranjera del país: se anota en la Cuenta Financiera (Inversión en Cartera) como EGRESO ($1.500)."
+            },
+            {
+                id: 2,
+                title: "Venta de trigo",
+                rawText: "$600 INGRESO",
+                account: "Cuenta Corriente → Balanza Comercial (Exportaciones)",
+                amount: 600,
+                type: "ingreso",
+                targetRow: "row-trigo",
+                explanation: "Es una exportación de bienes agrícolas. Genera entrada de divisas: va a la Balanza Comercial en Exportaciones como INGRESO ($600)."
+            },
+            {
+                id: 3,
+                title: "Importaciones de servicios",
+                rawText: "$1.000 EGRESO",
+                account: "Cuenta Corriente → Servicios (Reales)",
+                amount: 1000,
+                type: "egreso",
+                targetRow: "row-serv-imp",
+                explanation: "Pago por contratación de servicios al exterior (fletes, viajes, etc.). Se anota en Servicios como EGRESO ($1.000)."
+            },
+            {
+                id: 4,
+                title: "Cuenta capital",
+                rawText: "$300 POSITIVA, INGRESO",
+                account: "Cuenta Capital",
+                amount: 300,
+                type: "ingreso",
+                targetRow: "row-cta-capital",
+                explanation: "Transferencias de capital o activos intangibles/no financieros. Se registra como INGRESO ($300) en la Cuenta Capital."
+            },
+            {
+                id: 5,
+                title: "Transferencias corrientes",
+                rawText: "$250 INGRESO",
+                account: "Cuenta Corriente → Transferencias Corrientes",
+                amount: 250,
+                type: "ingreso",
+                targetRow: "row-transferencias",
+                explanation: "Remesas o ayuda económica recibida sin contraprestación directa. Se registra en Transferencias Corrientes como INGRESO ($250)."
+            },
+            {
+                id: 6,
+                title: "Cuenta ingresos o rentas",
+                rawText: "$200 INGRESO",
+                account: "Cuenta Corriente → Rentas",
+                amount: 200,
+                type: "ingreso",
+                targetRow: "row-rentas",
+                explanation: "Cobro de intereses, rentas o dividendos provenientes del exterior. Se registra en la cuenta Rentas como INGRESO ($200)."
+            },
+            {
+                id: 7,
+                title: "Errores y omisiones",
+                rawText: "$0",
+                account: "Errores y Omisiones",
+                amount: 0,
+                type: "neutro",
+                targetRow: "row-errores",
+                explanation: "Cuenta de ajuste contable. En este ejercicio tiene valor nulo ($0)."
+            },
+            {
+                id: 8,
+                title: "Exportaciones de soja",
+                rawText: "$1.300 INGRESO",
+                account: "Cuenta Corriente → Balanza Comercial (Exportaciones)",
+                amount: 1300,
+                type: "ingreso",
+                targetRow: "row-soja",
+                explanation: "Otra venta de bienes al exterior. Se suma a las Exportaciones en la Balanza Comercial como INGRESO ($1.300)."
+            },
+            {
+                id: 9,
+                title: "Compra de una empresa fabril nacional",
+                rawText: "$900 INGRESO (Cta. Financiera -600)",
+                account: "Cuenta Financiera → Inversión Directa",
+                amount: 900,
+                type: "ingreso",
+                targetRow: "row-dir-compra",
+                explanation: "Un extranjero compra una fábrica local (Inversión Extranjera Directa). Ingresan divisas: se anota en Inversión Directa como INGRESO ($900)."
+            },
+            {
+                id: 10,
+                title: "Compra de bienes de capital",
+                rawText: "$1.200 EGRESO",
+                account: "Cuenta Corriente → Balanza Comercial (Importaciones)",
+                amount: 1200,
+                type: "egreso",
+                targetRow: "row-capital-imp",
+                explanation: "Importación de maquinaria o equipos. Va a la Balanza Comercial dentro de Importaciones como EGRESO ($1.200)."
+            },
+            {
+                id: 11,
+                title: "Exportaciones de servicios",
+                rawText: "$300 INGRESO",
+                account: "Cuenta Corriente → Servicios (Reales)",
+                amount: 300,
+                type: "ingreso",
+                targetRow: "row-serv-exp",
+                explanation: "Servicios profesionales o software vendidos al exterior. Se suma en la cuenta Servicios como INGRESO ($300)."
+            }
+        ];
+
+        const tableStructure = [
+            { id: "row-cta-cte", name: "Cuenta Corriente", type: "header", isMainAccount: true },
+            { id: "row-bal-com", name: "Balanza Comercial", type: "subHeader", isMainAccount: true },
+            { id: "row-exp", name: "• Exportaciones", type: "category" },
+            { id: "row-trigo", name: "    Venta de trigo", type: "item" },
+            { id: "row-soja", name: "    Venta de soja", type: "item" },
+            { id: "row-imp", name: "• Importaciones", type: "category" },
+            { id: "row-capital-imp", name: "    Compra de bienes de capital", type: "item" },
+            { id: "row-servicios", name: "Servicios", type: "subHeader" },
+            { id: "row-serv-reales", name: "• Reales", type: "category" },
+            { id: "row-serv-exp", name: "    Exportación de servicios", type: "item" },
+            { id: "row-serv-imp", name: "    Importación de servicios", type: "item" },
+            { id: "row-rentas", name: "Rentas", type: "subHeader" },
+            { id: "row-transferencias", name: "Transferencias corrientes", type: "subHeader" },
+            
+            { id: "row-cta-cap-fin", name: "Cuenta Capital y Financiera", type: "header", isMainAccount: true },
+            { id: "row-cta-capital", name: "Cuenta Capital", type: "subHeader" },
+            { id: "row-cta-financiera", name: "Cuenta Financiera", type: "subHeader" },
+            { id: "row-directa", name: "• Inversión Directa", type: "category" },
+            { id: "row-dir-compra", name: "    Compra de empresa fabril nacional", type: "item" },
+            { id: "row-cartera", name: "• Inversión en Cartera", type: "category" },
+            { id: "row-cart-compra", name: "    Compra de activos extranjeros", type: "item" },
+            
+            { id: "row-errores", name: "Errores y omisiones", type: "header" },
+            { id: "row-reservas", name: "Variación de Reservas Internacionales", type: "header", isMainAccount: true }
+        ];
+
+        let currentStep = 0;
+        let isPlaying = false;
+        let timer = null;
+
+        function initApp() {
+            renderCards();
+            renderTable();
+            updateView();
+        }
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = transactions.map((t, idx) => `
+                <div id="card-${t.id}" class="bg-white border border-slate-200 rounded-xl p-3.5 transition-all duration-300 shadow-sm flex flex-col gap-1.5">
+                    <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Dato #${t.id}</span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded ${t.type === 'ingreso' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : t.type === 'egreso' ? 'bg-rose-100 text-rose-800 border border-rose-300' : 'bg-slate-100 text-slate-700 border border-slate-300'}">
+                            ${t.type.toUpperCase()}
+                        </span>
+                    </div>
+                    <h4 class="text-xs font-bold text-slate-800 leading-snug">${t.title}</h4>
+                    <p class="text-xs font-mono font-bold text-slate-700 bg-slate-50 p-1.5 rounded border border-slate-100">${t.rawText}</p>
+                    <div class="pt-1 flex items-center gap-1.5 text-[11px] text-blue-700 font-semibold">
+                        <span>➔</span> <span>${t.account}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('bpTableBody');
+            tbody.innerHTML = tableStructure.map(row => {
+                let rowCss = "border-b border-slate-200 transition-colors duration-300 ";
+                let nameCss = "text-slate-700 ";
+
+                if (row.type === 'header') {
+                    rowCss += "bg-slate-100 font-bold ";
+                    nameCss = "text-slate-900 font-bold pl-2";
+                } else if (row.type === 'subHeader') {
+                    rowCss += "bg-slate-50/70 font-semibold ";
+                    nameCss = "pl-5 text-slate-800 font-semibold";
+                } else if (row.type === 'category') {
+                    nameCss = "pl-8 text-slate-700 font-medium italic";
+                } else {
+                    nameCss = "pl-11 text-slate-600 text-[11px]";
+                }
+
+                return `
+                    <tr id="${row.id}" class="${rowCss}">
+                        <td class="p-2 ${nameCss}">${row.name}</td>
+                        <td id="${row.id}-ingreso" class="p-2 text-right font-mono text-emerald-600 font-semibold"></td>
+                        <td id="${row.id}-egreso" class="p-2 text-right font-mono text-rose-600 font-semibold"></td>
+                        <td id="${row.id}-saldo" class="p-2 text-right font-mono font-bold text-slate-800"></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateView() {
+            // Limpiar tabla
+            tableStructure.forEach(row => {
+                document.getElementById(`${row.id}-ingreso`).textContent = "";
+                document.getElementById(`${row.id}-egreso`).textContent = "";
+                document.getElementById(`${row.id}-saldo`).textContent = "";
+                document.getElementById(`${row.id}-saldo`).innerHTML = "";
+                document.getElementById(row.id).classList.remove('row-active', 'row-filled');
+            });
+
+            transactions.forEach((t, idx) => {
+                const card = document.getElementById(`card-${t.id}`);
+                if (idx < currentStep) {
+                    card.classList.remove('opacity-30', 'card-active');
+                    card.classList.add('opacity-80');
+                } else {
+                    card.classList.add('opacity-30');
+                    card.classList.remove('card-active');
+                }
+            });
+
+            if (currentStep > 0) {
+                const activeTx = transactions[currentStep - 1];
+                const activeCard = document.getElementById(`card-${activeTx.id}`);
+                
+                activeCard.classList.remove('opacity-30', 'opacity-80');
+                activeCard.classList.add('card-active');
+                activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Cargar transacciones ingresadas hasta el momento
+                for (let i = 0; i < currentStep; i++) {
+                    const tx = transactions[i];
+                    const ingCell = document.getElementById(`${tx.targetRow}-ingreso`);
+                    const egrCell = document.getElementById(`${tx.targetRow}-egreso`);
+                    const rowEl = document.getElementById(tx.targetRow);
+
+                    if (tx.type === 'ingreso') ingCell.textContent = `$${tx.amount.toLocaleString()}`;
+                    if (tx.type === 'egreso') egrCell.textContent = `$${tx.amount.toLocaleString()}`;
+                    if (tx.type === 'neutro') {
+                        ingCell.textContent = "$0";
+                        egrCell.textContent = "$0";
+                    }
+
+                    rowEl.classList.add('row-filled');
+                }
+
+                // Recalcular y animar saldos dinámicamente según lo cargado
+                calculateDynamicSaldos();
+
+                const activeRow = document.getElementById(activeTx.targetRow);
+                if (activeRow) {
+                    activeRow.classList.add('row-active');
+                    activeRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                document.getElementById('pedagogicalTitle').textContent = `Dato #${activeTx.id}: ${activeTx.title}`;
+                document.getElementById('pedagogicalText').textContent = activeTx.explanation;
+            } else {
+                document.getElementById('pedagogicalTitle').textContent = "Inicio del Ejercicio";
+                document.getElementById('pedagogicalText').textContent = "Avanza paso a paso para analizar la clasificación e imputación contable de cada transacción en la Balanza de Pagos.";
+            }
+
+            const percent = Math.round((currentStep / transactions.length) * 100);
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('progressPercent').textContent = `${percent}% completado`;
+            document.getElementById('stepIndicator').textContent = currentStep === 0 
+                ? "Paso 0 de 11: Inicio del ejercicio" 
+                : `Paso ${currentStep} de 11: ${transactions[currentStep-1].title}`;
+            document.getElementById('totalBadge').textContent = `Cargados: ${currentStep} / 11 Datos`;
+
+            document.getElementById('btnPrev').disabled = currentStep === 0;
+            document.getElementById('btnNext').disabled = currentStep === transactions.length;
+
+            if (currentStep === transactions.length && isPlaying) {
+                togglePlay();
+            }
+        }
+
+        // Función para renderizar saldos con formato de marcador o estándar con animación popIn
+        function renderSaldoCell(elementId, val, isMainAccount = false) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const strVal = (val > 0 ? `+$${val.toLocaleString()}` : val < 0 ? `-$${Math.abs(val).toLocaleString()}` : `$0`);
+            
+            if (isMainAccount) {
+                el.innerHTML = `<span class="highlight-marker fade-pop">${strVal}</span>`;
+            } else {
+                el.innerHTML = `<span class="fade-pop inline-block">${strVal}</span>`;
+            }
+        }
+
+        // Cálculo acumulado dinámico paso a paso
+        function calculateDynamicSaldos() {
+            let exp = 0, imp = 0;
+            let servExp = 0, servImp = 0;
+            let rentas = 0, transferencias = 0;
+            let ctaCap = 0, ied = 0, cartera = 0, errores = 0;
+
+            for (let i = 0; i < currentStep; i++) {
+                const tx = transactions[i];
+                if (tx.id === 2) exp += 600;
+                if (tx.id === 8) exp += 1300;
+                if (tx.id === 10) imp += 1200;
+                if (tx.id === 11) servExp += 300;
+                if (tx.id === 3) servImp += 1000;
+                if (tx.id === 6) rentas += 200;
+                if (tx.id === 5) transferencias += 250;
+                if (tx.id === 4) ctaCap += 300;
+                if (tx.id === 9) ied += 900;
+                if (tx.id === 1) cartera += 1500;
+            }
+
+            // Exportaciones e Importaciones Totales
+            if (exp > 0) document.getElementById('row-exp-ingreso').textContent = `$${exp.toLocaleString()}`;
+            if (imp > 0) document.getElementById('row-imp-egreso').textContent = `$${imp.toLocaleString()}`;
+
+            // 1. Balanza Comercial
+            if (exp > 0 || imp > 0) {
+                const balCom = exp - imp;
+                renderSaldoCell('row-bal-com-saldo', balCom, true);
+            }
+
+            // 2. Servicios
+            if (servExp > 0 || servImp > 0) {
+                const servSaldo = servExp - servImp;
+                renderSaldoCell('row-servicios-saldo', servSaldo, false);
+            }
+
+            // 3. Rentas y Transferencias
+            if (rentas > 0) renderSaldoCell('row-rentas-saldo', rentas, false);
+            if (transferencias > 0) renderSaldoCell('row-transferencias-saldo', transferencias, false);
+
+            // 4. Saldo Cuenta Corriente Total
+            if (exp > 0 || imp > 0 || servExp > 0 || servImp > 0 || rentas > 0 || transferencias > 0) {
+                const balCom = exp - imp;
+                const servSaldo = servExp - servImp;
+                const ctaCteSaldo = balCom + servSaldo + rentas + transferencias;
+                renderSaldoCell('row-cta-cte-saldo', ctaCteSaldo, true);
+            }
+
+            // 5. Cuenta Capital
+            if (ctaCap > 0) renderSaldoCell('row-cta-capital-saldo', ctaCap, false);
+
+            // 6. Cuenta Financiera
+            if (ied > 0 || cartera > 0) {
+                const ctaFinSaldo = ied - cartera;
+                renderSaldoCell('row-cta-financiera-saldo', ctaFinSaldo, false);
+            }
+
+            // 7. Cuenta Capital y Financiera
+            if (ctaCap > 0 || ied > 0 || cartera > 0) {
+                const ctaFinSaldo = ied - cartera;
+                const ctaCapFinSaldo = ctaCap + ctaFinSaldo;
+                renderSaldoCell('row-cta-cap-fin-saldo', ctaCapFinSaldo, true);
+            }
+
+            // 8. Errores y omisiones
+            if (currentStep >= 7) renderSaldoCell('row-errores-saldo', 0, false);
+
+            // 9. Variación de Reservas Internacionales (Al finalizar todos los pasos)
+            if (currentStep === transactions.length) {
+                const ctaCteTotal = (exp - imp) + (servExp - servImp) + rentas + transferencias;
+                const ctaCapFinTotal = ctaCap + (ied - cartera);
+                const varReservas = -(ctaCteTotal + ctaCapFinTotal);
+                renderSaldoCell('row-reservas-saldo', varReservas, true);
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < transactions.length) {
+                currentStep++;
+                updateView();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateView();
+            }
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const playIcon = document.getElementById('playIcon');
+            const playText = document.getElementById('playText');
+            
+            if (isPlaying) {
+                playIcon.textContent = "⏸";
+                playText.textContent = "Pausar";
+                const speed = parseInt(document.getElementById('speedSelect').value);
+                timer = setInterval(() => {
+                    if (currentStep < transactions.length) {
+                        nextStep();
+                    } else {
+                        togglePlay();
+                    }
+                }, speed);
+            } else {
+                playIcon.textContent = "▶";
+                playText.textContent = "Reproducir";
+                clearInterval(timer);
+            }
+        }
+
+        function changeSpeed() {
+            if (isPlaying) {
+                clearInterval(timer);
+                const speed = parseInt(document.getElementById('speedSelect').value);
+                timer = setInterval(() => {
+                    if (currentStep < transactions.length) {
+                        nextStep();
+                    } else {
+                        togglePlay();
+                    }
+                }, speed);
+            }
+        }
+
+        function resetSimulation() {
+            if (isPlaying) togglePlay();
+            currentStep = 0;
+            updateView();
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
