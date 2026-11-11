@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 2026 - IV Trimestre - La Soberana</title>
+    <style>
+        :root {
+            --primary-green: #2f5d50;
+            --danger: #d32f2f;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #333;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); padding: 10px; color: var(--text); line-height: 1.5; }
+        .container { max-width: 1150px; margin: 0 auto; background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        header { display: flex; align-items: center; gap: 20px; border-bottom: 3px solid var(--primary-green); margin-bottom: 25px; padding-bottom: 15px; flex-wrap: wrap; }
+        .logo-header { width: 65px; height: auto; }
+        .header-text h1 { margin: 0; color: var(--primary-green); font-size: 22px; }
+
+        .selector-section { background: #eef2f1; padding: 15px; border-radius: 8px; margin-bottom: 25px; }
+        select { padding: 8px; border-radius: 5px; border: 1px solid var(--primary-green); font-size: 15px; cursor: pointer; width: 100%; max-width: 350px; }
+
+        .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #fff; border: 1px solid #ddd; border-left: 5px solid var(--primary-green); padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-card h3 { font-size: 12px; margin: 0; color: #666; text-transform: uppercase; }
+        .stat-card p { font-size: 20px; font-weight: bold; margin: 8px 0 0; }
+        
+        .negative { color: var(--danger) !important; font-weight: bold; }
+        .positive { color: var(--primary-green) !important; font-weight: bold; }
+
+        .table-container { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
+        th { background: var(--primary-green); color: white; padding: 12px; text-align: center; }
+        td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; }
+        td:first-child { text-align: left; font-weight: bold; }
+
+        .interpretation-box { margin-top: 25px; padding: 20px; background: #fdf2f2; border-radius: 8px; border-left: 5px solid var(--danger); }
+        .interpretation-box.success { background: #f2fdf5; border-left: 5px solid var(--primary-green); }
+        .interpretation-box h3 { margin-top: 0; font-size: 18px; color: var(--danger); }
+        .success h3 { color: var(--primary-green); }
+        .nota-profesional { background: #eef2f1; border-left: 5px solid var(--primary-green); margin-top: 15px; padding: 10px; border-radius: 4px; font-style: italic; }
+
+        footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666; text-align: center; }
+
+        @media (max-width: 600px) {
+            .header-text h1 { font-size: 18px; }
+            .grid-stats { grid-template-columns: 1fr 1fr; }
+            table { font-size: 11px; min-width: auto; }
+            td, th { padding: 8px 4px; }
+            .container { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/Soberana/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana" class="logo-header">
+        <div class="header-text">
+            <h1>Estado de Resultados 2026 - IV Trimestre</h1>
+            <p>Cooperativa de Trabajo La Soberana</p>
+        </div>
+    </header>
+
+    <div class="selector-section">
+        <label><strong>Mes de Análisis:</strong></label><br><br>
+        <select id="periodo" onchange="actualizar()">
+            <option value="oct" selected>Octubre 2026</option>
+            <option value="nov">Noviembre 2026 (Pendiente)</option>
+            <option value="dic">Diciembre 2026 (Pendiente)</option>
+        </select>
+    </div>
+
+    <div class="grid-stats">
+        <div class="stat-card"><h3>Ingresos</h3><p id="ing" class="positive"></p></div>
+        <div class="stat-card"><h3>Egresos</h3><p id="egr" class="negative"></p></div>
+        <div class="stat-card"><h3>Resultado Neto</h3><p id="res"></p></div>
+        <div class="stat-card"><h3>Rentabilidad %</h3><p id="rent"></p></div>
+    </div>
+
+    <div class="analysis-box">
+        <h2 id="titulo" style="font-size: 18px; color: var(--primary-green); margin-bottom: 15px; text-align: center;"></h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rubro de Egreso</th>
+                        <th>Monto</th>
+                        <th>% s/ Egresos</th>
+                        <th>% s/ Ingresos</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla"></tbody>
+            </table>
+        </div>
+
+        <div id="boxInterpretacion" class="interpretation-box">
+            <h3 id="interpretacionTitulo">Análisis de Gestión</h3>
+            <div id="interpretacionCuerpo"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Elaborado por: <strong>Dra. Marianela Truccone</strong></p>
+        <p>Datos proporcionados por Cooperativa La Soberana</p>
+    </footer>
+</div>
+
+<script>
+    const db = {
+        oct: {
+            t: "Desglose Octubre 2026",
+            i: "$24.073.054", e: "$23.613.000", r: "$460.054", rent: "1.91%",
+            txt: `
+                <p>Octubre 2026 retoma la senda del <b>superávit con $460.054</b>, alcanzando una rentabilidad mensual positiva del <b>1.91%</b>.</p>
+                <p>Los ingresos ascendieron a $24.073.054 superando a los egresos totales de $23.613.000. El rubro principal de egreso sigue concentrado en <b>Sueldos y Jornales/RETORNOS ($10.830.000)</b>, abarcando el 45.86% de los gastos, seguido por la <b>Compra de insumos para Pollos ($3.625.000)</b> y <b>Gastos de infraestructura ($3.020.000)</b>.</p>
+                <div class="nota-profesional">
+                    <b>Nota de Análisis:</b> Se observa un incremento en la recaudación que permite absorber los gastos operativos y de infraestructura del período, aunque se registraron cuentas relevantes por pérdida de mercadería ($1.903.000)que ameritan seguimiento en la producción e inventarios.
+                </div>
+            `,
+            filas: [
+                ["Retornos y Sueldos", "$10.830.000", "45.86%", "44.99%"],
+                ["Compra de insumos Pollos", "$3.625.000", "15.35%", "15.06%"],
+                ["Compra de insumos Cerdos", "$1.066.000", "4.51%", "4.43%"],
+                ["Compra de insumos Quesos", "$938.000", "3.97%", "3.90%"],
+                ["Compra de insumos Salames", "$100.000", "0.42%", "0.42%"],
+                ["Combustibles y lubricantes", "$440.000", "1.86%", "1.83%"],
+                ["Honorarios profesionales", "$200.000", "0.85%", "0.83%"],
+                ["Alquileres pagados", "$160.000", "0.68%", "0.66%"],
+                ["Pérdida mercadería", "$1.903.000", "8.06%", "7.91%"],
+                ["Consumo Mercadería", "$538.000", "2.28%", "2.23%"],
+                ["Gastos de infraestructura", "$3.020.000", "12.79%", "12.55%"],
+                ["Gastos de embalaje y envíos", "$475.000", "2.01%", "1.97%"],
+                ["Publicidad", "$318.000", "1.35%", "1.32%"]
+            ]
+        },
+        nov: {
+            t: "Desglose Noviembre 2026",
+            i: "$0", e: "$0", r: "$0", rent: "0.00%",
+            txt: `<p>El periodo de Noviembre 2026 se encuentra pendiente de carga y conciliación contable.</p>`,
+            filas: []
+        },
+        dic: {
+            t: "Desglose Diciembre 2026",
+            i: "$0", e: "$0", r: "$0", rent: "0.00%",
+            txt: `<p>El periodo de Diciembre 2026 se encuentra pendiente de cierre y carga contable.</p>`,
+            filas: []
+        }
+    };
+
+    function actualizar() {
+        const v = document.getElementById('periodo').value;
+        const data = db[v];
+        if (!data || data.i === "$0") {
+            document.getElementById('ing').innerText = "-";
+            document.getElementById('egr').innerText = "-";
+            document.getElementById('res').innerText = "-";
+            document.getElementById('rent').innerText = "-";
+            document.getElementById('titulo').innerText = data.t;
+            document.getElementById('interpretacionCuerpo').innerHTML = data.txt;
+            document.getElementById('tabla').innerHTML = "<tr><td colspan='4'>Sin datos cargados para este periodo</td></tr>";
+            return;
+        }
+
+        const box = document.getElementById('boxInterpretacion');
+
+        document.getElementById('ing').innerText = data.i;
+        document.getElementById('egr').innerText = data.e;
+        document.getElementById('res').innerText = data.r;
+        document.getElementById('rent').innerText = data.rent;
+        
+        const esNegativo = data.r.includes('-');
+        document.getElementById('res').className = esNegativo ? "negative" : "positive";
+        document.getElementById('rent').className = esNegativo ? "negative" : "positive";
+        
+        if(esNegativo) {
+            box.classList.remove('success');
+            document.getElementById('interpretacionTitulo').innerText = "Análisis de Gestión - Déficit";
+        } else {
+            box.classList.add('success');
+            document.getElementById('interpretacionTitulo').innerText = "Análisis de Gestión - Superávit";
+        }
+
+        document.getElementById('titulo').innerText = data.t;
+        document.getElementById('interpretacionCuerpo').innerHTML = data.txt;
+
+        const tbody = document.getElementById('tabla');
+        tbody.innerHTML = data.filas.map(f => `
+            <tr>
+                <td>${f[0]}</td>
+                <td><strong>${f[1]}</strong></td>
+                <td>${f[2]}</td>
+                <td>${f[3]}</td>
+            </tr>
+        `).join('');
+    }
+
+    window.onload = actualizar;
+</script>
+</body>
+</html>
