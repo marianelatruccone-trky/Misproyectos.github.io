@@ -56,8 +56,48 @@
             border-bottom: 2px solid #eee;
         }
 
+        /* Estilo para colapsar y ordenar la sección de visitas */
+        details.visitas-group {
+            background: #f9fdfc;
+            border: 1px solid #d1e2dd;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        details.visitas-group[open] {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        summary {
+            font-weight: bold;
+            font-size: 16px;
+            color: var(--primary-green);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: "▼";
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
         .subsection-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             color: var(--accent-green);
             text-transform: uppercase;
@@ -69,6 +109,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
+            margin-top: 15px;
         }
 
         .card-link {
@@ -122,7 +163,7 @@
 
 <div class="container">
     <header>
-        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana" class="logo">
+        <img src="https://marianelatruccone-trky.github.io/Misproyectos.github.io/Soberana/304860792_488549076582091_1628220225548910886_n.jpg" alt="Logo La Soberana" class="logo">
         <h1>Repositorio de Gestión Profesional</h1>
         <p class="subtitle">Cooperativa de Trabajo La Soberana</p>
     </header>
@@ -163,83 +204,87 @@
         </a>
     </div>
 
-    <!-- INFORMES DE VISITAS -->
-    <div class="section-title">📝 Informes de Visitas</div>
+    <!-- INFORMES DE VISITAS (AGRUPADOS Y COLAPSABLES) -->
+    <div class="section-title">📝 Informes de Visitas y Reuniones Técnicas</div>
     
-    <div class="subsection-title">📅 Período 2026</div>
-    <div class="grid-links">
-        <!-- 21 DE SEPTIEMBRE -->
-        <a href="InformeLS%20visita%2021-09-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">21 de Septiembre, 2026</span>
-            </div>
-        </a>
+    <details class="visitas-group">
+        <summary>📁 Historial de Informes de Visitas Presenciales y Reuniones (2026)</summary>
+        
+        <div class="subsection-title">📅 Período 2026</div>
+        <div class="grid-links">
+            <!-- 21 DE SEPTIEMBRE (Nota: si creaste una carpeta llamada 'visitas', recuerda anteponer 'visitas/' en el href de abajo) -->
+            <a href="visitas/InformeLS%20visita%2021-09-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Reunión Técnica de Costos</span>
+                    <span class="date">21 de Septiembre, 2026</span>
+                </div>
+            </a>
 
-        <!-- 12 DE AGOSTO -->
-        <a href="InformeLS%20visita%2012-08-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">12 de Agosto, 2026</span>
-            </div>
-        </a>
+            <!-- 12 DE AGOSTO -->
+            <a href="visitas/InformeLS%20visita%2012-08-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Informe Visita Presencial</span>
+                    <span class="date">12 de Agosto, 2026</span>
+                </div>
+            </a>
 
-        <!-- 24 DE JUNIO -->
-        <a href="InformeLS%20visita%2024-06-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">24 de Junio, 2026</span>
-            </div>
-        </a>
+            <!-- 24 DE JUNIO -->
+            <a href="visitas/InformeLS%20visita%2024-06-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Informe Visita Presencial</span>
+                    <span class="date">24 de Junio, 2026</span>
+                </div>
+            </a>
 
-        <!-- 27 DE MAYO -->
-        <a href="InformeLS%20visita%2027-05-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">27 de Mayo, 2026</span>
-            </div>
-        </a>
+            <!-- 27 DE MAYO -->
+            <a href="visitas/InformeLS%20visita%2027-05-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Informe Visita Presencial</span>
+                    <span class="date">27 de Mayo, 2026</span>
+                </div>
+            </a>
 
-        <!-- 08 DE ABRIL -->
-        <a href="InformeLS%20visita%2008-04-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">08 de Abril, 2026</span>
-            </div>
-        </a>
+            <!-- 08 DE ABRIL -->
+            <a href="visitas/InformeLS%20visita%2008-04-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Informe Visita Presencial</span>
+                    <span class="date">08 de Abril, 2026</span>
+                </div>
+            </a>
 
-        <!-- 18 DE MARZO -->
-        <a href="InformeLS%20visita%2018-03-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">18 de Marzo, 2026</span>
-            </div>
-        </a>
+            <!-- 18 DE MARZO -->
+            <a href="visitas/InformeLS%20visita%2018-03-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Informe Visita Presencial</span>
+                    <span class="date">18 de Marzo, 2026</span>
+                </div>
+            </a>
 
-        <!-- 04 DE FEBRERO -->
-        <a href="InformeLS%20visita%2004-02-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">04 de Febrero, 2026</span>
-            </div>
-        </a>
+            <!-- 04 DE FEBRERO -->
+            <a href="visitas/InformeLS%20visita%2004-02-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Informe Visita Presencial</span>
+                    <span class="date">04 de Febrero, 2026</span>
+                </div>
+            </a>
 
-        <!-- 13 DE ENERO -->
-        <a href="InformeLS3%20visita%2013-01-26.html" class="card-link">
-            <div class="icon">📍</div>
-            <div class="details">
-                <span class="title">Informe Visita Presencial</span>
-                <span class="date">13 de Enero, 2026</span>
-            </div>
-        </a>
-    </div>
+            <!-- 13 DE ENERO -->
+            <a href="visitas/InformeLS3%20visita%2013-01-26.html" class="card-link">
+                <div class="icon">📍</div>
+                <div class="details">
+                    <span class="title">Informe Visita Presencial</span>
+                    <span class="date">13 de Enero, 2026</span>
+                </div>
+            </a>
+        </div>
+    </details>
 
     <footer>
         <p>Elaborado por: <strong>Dra. Marianela Truccone / 2026</strong></p>
